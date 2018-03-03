@@ -11,13 +11,7 @@ export default class Navbar extends React.Component {
 
         return <nav className='navbar navbar-inverse navbar-fixed-top'>
             <div className='navbar-header'>
-                <button type='button' className='navbar-toggle collapsed' data-toggle='collapse' data-target='#navbar' aria-expanded='false' aria-controls='navbar'>
-                    <span className='sr-only'>Toggle navigation</span>
-                    <span className='icon-bar'></span>
-                    <span className='icon-bar'></span>
-                    <span className='icon-bar'></span>
-                </button>
-                <Link to={"/"+((this.props.mode == 'executive' || name == 'Unknown') ? '' : 'dashboard')} className='navbar-brand'><img src="" /><span> | RealConnect for Office 365</span></Link>
+                <Link to={'/dashboard'} className='navbar-brand'><span>Heimdall</span></Link>
             </div>
             {name != 'Unknown' && <div id='navbar' className='collapse navbar-collapse'>
                 <ul className={'nav navbar-nav navbar-right'}>

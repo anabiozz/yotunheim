@@ -1,56 +1,66 @@
 package main
 
 import (
-	"bytes"
-	"encoding/json"
-	"io/ioutil"
+	"fmt"
+	"heimdall_project/yotunheim/backend/common"
+	"heimdall_project/yotunheim/backend/common/datastore"
+	"heimdall_project/yotunheim/backend/common/utility"
+	"heimdall_project/yotunheim/backend/endpoints"
+	"heimdall_project/yotunheim/backend/handlers"
+	"log"
+	"os"
 
 	"github.com/kataras/iris"
 )
 
-type User struct {
-	Name     string  `json:"name"`
-	BMI      float32 `json:"BMI"`
-	Age      int     `json:"age"`
-	Birthday string  `json:"birthday"`
-	City     string  `json:"city"`
-	Married  bool    `json:"married"`
-	Index    int     `json:"index"`
+func handleError(key string, err error, message string) {
+	log.SetPrefix(fmt.Sprintf("[logID: %v]: ", key))
+	log.Printf("%#v", err)
+	log.Printf("[%v] %v", key, message)
 }
 
+var (
+	bugMsg = "There was an unexpected issue; please report this as a bug."
+)
+
 func main() {
-	app := iris.New()
+	// set up logs parameters
+	log.SetOutput(os.Stdout)
+	log.SetFlags(log.Ltime | log.LUTC)
+
+	// Iris parameters
+	app := iris.Default()
 	tmpl := iris.HTML("./public", ".html")
 	tmpl.Layout("index.html")
 	app.RegisterView(tmpl)
 
-	app.Use(func(ctx iris.Context) {
-		ctx.Application().Logger().Infof("Begin request for path: %s", ctx.Path())
-		ctx.Next()
-	})
-
-	app.Handle("GET", "/", func(ctx iris.Context) {
-		ctx.Redirect("/dashboard")
-	})
-
-	app.Handle("GET", "/dashboard", func(ctx iris.Context) {
-		if err := ctx.View("index.html"); err != nil {
-			ctx.StatusCode(iris.StatusInternalServerError)
-			ctx.Writef(err.Error())
+	// get uuid
+	uuid, err := utility.GenerateUUID()
+	if err != nil {
+		if _, ok := err.(utility.UUIDError); ok {
+			bugMsg = err.Error()
 		}
-	})
+		handleError(uuid, err, bugMsg)
+	}
 
-	app.Handle("GET", "/api/get-json", func(ctx iris.Context) {
-		type data []interface{}
-		users, _ := ioutil.ReadFile("./public/user.json")
-		dec := json.NewDecoder(bytes.NewReader(users))
-		var d data
-		dec.Decode(&d)
-		if _, err := ctx.JSON(&d); err != nil {
-			ctx.StatusCode(iris.StatusInternalServerError)
-			ctx.Writef(err.Error())
+	// Cretate new datastore
+	db, err := datastore.NewDatastore(datastore.INFLUXDB, "http://localhost:8086")
+	if err != nil {
+		if _, ok := err.(datastore.DatastoreErr); ok {
+			bugMsg = err.Error()
 		}
-	})
+
+		handleError(uuid, err, bugMsg)
+	}
+
+	env := common.Env{DB: db}
+
+	// Handlers
+	app.Handle("GET", "/", handlers.HomeHandler)
+	app.Handle("GET", "/dashboard", handlers.DashboardHandler)
+
+	//Endpoints
+	app.Handle("GET", "/api/get-json", endpoints.GetJSONnEndpoint(&env))
 
 	app.StaticWeb("/", "./public")
 	app.Run(

@@ -4,7 +4,6 @@ import { createStore, combineReducers, applyMiddleware } from 'redux'
 import Provider from 'react-redux/lib/components/Provider';
 import browserHistory from 'react-router/lib/browserHistory';
 import Router from 'react-router/lib/Router';
-import Route from 'react-router/lib/Route'
 import thunkMiddleware from 'redux-thunk';
 import routes from './routes';
 import * as reducers from './flux/reduser';
@@ -13,14 +12,12 @@ reducers.routing = routerReducer;
 
 const store = createStore(combineReducers(reducers), applyMiddleware(thunkMiddleware));
 const history = syncHistoryWithStore(browserHistory, store);
-history.push('/dashboard')
-let state = store.getState();
+// history.push('/dashboard')
 
 function run () {
-    let state = store.getState();
     ReactDOM.render(
     <Provider store={store}>
-        <Router routes={routes("alex")} history={history}/>
+        <Router routes={routes('alex')} history={history}/>
     </Provider>, document.getElementById('root'));
 }
 

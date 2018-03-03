@@ -1,39 +1,40 @@
-// first of course react!
-var React = require('react');
-// require `react-d3-core` for Chart component, which help us build a blank svg and chart title.
-var Chart = require('react-d3-core').Chart;
-// require `react-d3-basic` for Line chart component.
-var LineChart = require('react-d3-basic').LineChart;
+import React from 'react';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 
 export default class ChartCell extends React.Component {
     constructor(...props) {
         super(...props)
     }
 
+    _renderObject(chartData){
+        return Object.entries(chartData).map(([key, value], i) => {
+			return (
+				<div key={i}>
+					<LineChart width={600} height={300} data={value} margin={{top: 5, right: 30, left: 20, bottom: 5}}>
+                    <XAxis dataKey={key + ' usage'}/>
+                    <YAxis domain={[0, 100]} />
+                    <CartesianGrid strokeDasharray='3 3'/>
+                    <Tooltip/>
+                    <Legend />
+                    <Line type='monotone' dataKey='payload' name={key + ' usage'} stroke='#8884d8' activeDot={{r: 8}}/>
+                    </LineChart>
+				</div>
+			)
+		})
+    }
+
     render() {
-        const { chartData } = this.props
-        return <LineChart
-            width= {700}
-            height= {300}
-            data= {chartData}
-            chartSeries= {[
-                {
-                    field: 'age',
-                    name: 'Age',
-                    color: '#ff7f0e',
-                    style: {
-                        "strokeWidth": 2,
-                        "strokeOpacity": .9,
-                        "fillOpacity": .2
-                    }
-                }
-            ]}
-            x= {function(d) {
-                return d.index;
-            }}
-            />
+        let { chartData } = this.props
+        if(chartData != undefined) {
+            return <div>
+                {this._renderObject(chartData)}
+            </div>
+        }
+        return <div>no data</div>
     }
 }
 ChartCell.propTypes = {
   
 }
+
+
