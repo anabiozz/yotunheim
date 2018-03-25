@@ -28,6 +28,7 @@
   },
   "scripts": {
     "start": "cd backend; go build; ./backend",
-    "build": "watchify frontend/index.js -o backend/public/bundle.js -t [ babelify --presets [ react es2015 stage-0 ] ]"
+    "build": "watchify frontend/index.js -o backend/public/bundle.js -t [ babelify --presets [ react es2015 stage-0 ] ]",
+    "script": "npm run build | npm run start"
   }
 }
