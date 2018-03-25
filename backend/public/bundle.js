@@ -437,6 +437,7 @@ var ChartCell = function (_React$Component) {
     _createClass(ChartCell, [{
         key: '_renderObject',
         value: function _renderObject(chartData) {
+
             return Object.entries(chartData).map(function (_ref2, i) {
                 var _ref3 = _slicedToArray(_ref2, 2),
                     key = _ref3[0],
@@ -447,8 +448,8 @@ var ChartCell = function (_React$Component) {
                     { key: i },
                     _react2.default.createElement(
                         _recharts.LineChart,
-                        { width: 600, height: 300, data: value, margin: { top: 5, right: 30, left: 20, bottom: 5 } },
-                        _react2.default.createElement(_recharts.XAxis, { dataKey: key + ' usage' }),
+                        { width: 600, height: 300, data: value, margin: { top: 10, right: 30, left: 30, bottom: 10 } },
+                        _react2.default.createElement(_recharts.XAxis, { dataKey: 'timestamp' }),
                         _react2.default.createElement(_recharts.YAxis, { domain: [0, 100] }),
                         _react2.default.createElement(_recharts.CartesianGrid, { strokeDasharray: '3 3' }),
                         _react2.default.createElement(_recharts.Tooltip, null),
@@ -463,6 +464,7 @@ var ChartCell = function (_React$Component) {
         value: function render() {
             var chartData = this.props.chartData;
 
+            console.log(chartData);
             if (chartData != undefined) {
                 return _react2.default.createElement(
                     'div',

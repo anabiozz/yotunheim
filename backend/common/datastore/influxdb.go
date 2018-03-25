@@ -41,7 +41,7 @@ func NewInfluxDatastore(dbConnectionString string) (client influx.Client, err er
 
 // CPUUsageInfluxQuery return cpu usage responce
 func CPUUsageInfluxQuery(c Datastore) (res []influx.Result, err error) {
-	res, err = queryDB(c.(influx.Client), "SELECT (100 - usage_idle) as cpu_usage from cpu WHERE time >= now() - 60s")
+	res, err = queryDB(c.(influx.Client), "SELECT (100 - usage_idle) as cpu_usage from cpu WHERE time >= now() - 60s AND cpu = 'cpu-total'")
 	if err != nil {
 		return nil, utility.WrapError(err, err.Error())
 	}
@@ -50,7 +50,7 @@ func CPUUsageInfluxQuery(c Datastore) (res []influx.Result, err error) {
 
 // MemUsageInfluxQuery return cpu usage responce
 func MemUsageInfluxQuery(c Datastore) (res []influx.Result, err error) {
-	res, err = queryDB(c.(influx.Client), "SELECT used_percent as mem_usage  from mem WHERE time >= now() - 60s")
+	res, err = queryDB(c.(influx.Client), "SELECT used_percent as mem_usage from mem WHERE time >= now() - 60s")
 	if err != nil {
 		return nil, utility.WrapError(err, err.Error())
 	}
