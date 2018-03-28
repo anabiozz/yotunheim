@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"heimdall_project/yotunheim/backend/common"
 	"heimdall_project/yotunheim/backend/common/datastore"
-	"log"
 	"time"
 
 	"github.com/kataras/iris"
@@ -26,7 +25,6 @@ func GetJSONnEndpoint(e *common.Env) iris.Handler {
 			for _, ser := range influxCPUUsage[0].Series[0].Values {
 				influxMetricItem := datastore.InfluxMetricItem{}
 				t, _ := time.Parse(time.RFC3339, ser[0].(string))
-				log.Println(fmt.Sprintf("%02d:%02d:%02d", t.Hour(), t.Minute(), t.Second()))
 				influxMetricItem.Timestamp = fmt.Sprintf("%02d:%02d:%02d", t.Hour(), t.Minute(), t.Second())
 				influxMetricItem.Payload = ser[1]
 				influxMetrics.Batch = append(influxMetrics.Batch, influxMetricItem)
