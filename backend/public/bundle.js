@@ -434,29 +434,51 @@ var ChartCell = function (_React$Component) {
         return _possibleConstructorReturn(this, (_ref = ChartCell.__proto__ || Object.getPrototypeOf(ChartCell)).call.apply(_ref, [this].concat(props)));
     }
 
-    _createClass(ChartCell, [{
-        key: '_renderObject',
-        value: function _renderObject(chartData) {
+    // _renderLine(chartData){
+    //     return Object.entries(chartData.Metrics).map(([key, value], i) => {
 
-            return Object.entries(chartData).map(function (_ref2, i) {
+    //     })
+    // }
+
+    _createClass(ChartCell, [{
+        key: '_renderBar',
+        value: function _renderBar(chartData) {
+            return Object.entries(chartData.Metrics).map(function (_ref2, i) {
                 var _ref3 = _slicedToArray(_ref2, 2),
                     key = _ref3[0],
                     value = _ref3[1];
 
-                return _react2.default.createElement(
-                    'div',
-                    { key: i },
-                    _react2.default.createElement(
-                        _recharts.LineChart,
-                        { width: 600, height: 300, data: value, margin: { top: 10, right: 30, left: 30, bottom: 10 } },
-                        _react2.default.createElement(_recharts.XAxis, { dataKey: 'timestamp' }),
-                        _react2.default.createElement(_recharts.YAxis, { domain: [0, 100] }),
-                        _react2.default.createElement(_recharts.CartesianGrid, { strokeDasharray: '3 3' }),
-                        _react2.default.createElement(_recharts.Tooltip, null),
-                        _react2.default.createElement(_recharts.Legend, null),
-                        _react2.default.createElement(_recharts.Line, { type: 'monotone', dataKey: 'payload', name: key + ' usage', stroke: '#8884d8', activeDot: { r: 8 } })
-                    )
-                );
+                if (key == 'disk') {
+                    return _react2.default.createElement(
+                        'div',
+                        { key: i },
+                        _react2.default.createElement(
+                            _recharts.BarChart,
+                            { width: 600, height: 300, data: value, margin: { top: 10, right: 30, left: 30, bottom: 10 } },
+                            _react2.default.createElement(_recharts.XAxis, { dataKey: 'timestamp' }),
+                            _react2.default.createElement(_recharts.YAxis, { domain: [0, 100] }),
+                            _react2.default.createElement(_recharts.CartesianGrid, { strokeDasharray: '3 3' }),
+                            _react2.default.createElement(_recharts.Tooltip, null),
+                            _react2.default.createElement(_recharts.Legend, null),
+                            _react2.default.createElement(_recharts.Bar, { dataKey: 'payload', name: key + ' usage', fill: '#8884d8' })
+                        )
+                    );
+                } else {
+                    return _react2.default.createElement(
+                        'div',
+                        { key: i },
+                        _react2.default.createElement(
+                            _recharts.LineChart,
+                            { width: 600, height: 300, data: value, margin: { top: 10, right: 30, left: 30, bottom: 10 } },
+                            _react2.default.createElement(_recharts.XAxis, { dataKey: 'timestamp' }),
+                            _react2.default.createElement(_recharts.YAxis, { domain: [0, 100] }),
+                            _react2.default.createElement(_recharts.CartesianGrid, { strokeDasharray: '3 3' }),
+                            _react2.default.createElement(_recharts.Tooltip, null),
+                            _react2.default.createElement(_recharts.Legend, null),
+                            _react2.default.createElement(_recharts.Line, { type: 'monotone', dataKey: 'payload', name: key + ' usage', stroke: '#8884d8', activeDot: { r: 8 } })
+                        )
+                    );
+                }
             });
         }
     }, {
@@ -464,12 +486,13 @@ var ChartCell = function (_React$Component) {
         value: function render() {
             var chartData = this.props.chartData;
 
-            console.log(chartData);
-            if (chartData != undefined) {
+            console.log(chartData.Data);
+            if (chartData.Metrics != undefined) {
+                console.log(chartData.ChartType);
                 return _react2.default.createElement(
                     'div',
                     null,
-                    this._renderObject(chartData)
+                    this._renderBar(chartData)
                 );
             }
             return _react2.default.createElement(
