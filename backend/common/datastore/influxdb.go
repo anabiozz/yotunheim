@@ -68,7 +68,7 @@ func DiskUsageInfluxQuery(c Datastore) (res []influx.Result, err error) {
 }
 
 // queryDB convenience function to query the database
-func queryDB(clnt influx.Client, cmd string) (res []influx.Result, err error) {
+func QueryDB(clnt influx.Client, cmd string) (res []influx.Result, err error) {
 	q := influx.Query{
 		Command:  cmd,
 		Database: "telegraf",
