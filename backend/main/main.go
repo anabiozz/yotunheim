@@ -7,6 +7,8 @@ import (
 	"heimdall_project/yotunheim/backend/common/utility"
 	"heimdall_project/yotunheim/backend/endpoints"
 	"heimdall_project/yotunheim/backend/handlers"
+	"heimdall_project/yotunheim/backend/internal/config"
+	_ "heimdall_project/yotunheim/backend/metrics/all"
 	"log"
 	"os"
 
@@ -30,7 +32,7 @@ func main() {
 
 	// Iris parameters
 	app := iris.Default()
-	tmpl := iris.HTML("./public", ".html")
+	tmpl := iris.HTML("../public", ".html")
 	tmpl.Layout("index.html")
 	app.RegisterView(tmpl)
 
@@ -55,14 +57,29 @@ func main() {
 
 	env := common.Env{DB: db}
 
+	// Create new config
+	newConfig := config.NewConfig()
+	// Filling new config getting data from default config
+	err = newConfig.LoadConfig()
+	inputs := newConfig.InputFilters["inputs"].([]interface{})
+
+	// Filling InputFilters
+	for _, value := range inputs {
+		newConfig.AddInput(value.(string))
+	}
+
+	if len(newConfig.Inputs) == 0 {
+		log.Fatalf("ERROR: no inputs found, did you provide a valid config file?")
+	}
+
 	// Handlers
 	app.Handle("GET", "/", handlers.HomeHandler)
 	app.Handle("GET", "/dashboard", handlers.DashboardHandler)
 
 	//Endpoints
-	app.Handle("GET", "/api/get-json", endpoints.GetJSONnEndpoint(&env))
+	app.Handle("GET", "/api/get-json", endpoints.GetJSONnEndpoint(&env, newConfig))
 
-	app.StaticWeb("/", "./public")
+	app.StaticWeb("/", "../public")
 	app.Run(
 		iris.Addr("localhost:8080"),
 		// disables updates:

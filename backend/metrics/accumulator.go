@@ -1,37 +1,35 @@
 package metrics
 
 import (
+	"heimdall_project/yotunheim/backend/common/datastore"
+
 	influx "github.com/influxdata/influxdb/client/v2"
-	"heimdall_project/asgard"
 )
 
 type accumulator struct {
-	metrics   chan asgard.Metric
-	getter     MetricGetter
+	metrics chan datastore.InfluxMetrics
+	getter  MetricGetter
 }
-
 
 // MetricMaker ...
 type MetricGetter interface {
-	GetMetric(name string, metrics []influx.Result, err error) asgard.Metric
+	GetMetric(name string, chartType string, metrics []influx.Result, err error) datastore.InfluxMetrics
 }
 
-
 // NewAccumulator ...
-func NewAccumulator(
-	runningInput MetricGetter,
-	metrics chan asgard.Metric) *accumulator {
+func NewAccumulator(runningInput MetricGetter, metrics chan datastore.InfluxMetrics) *accumulator {
 	acc := accumulator{
-		getter:     runningInput,
-		metrics:   metrics,
+		getter:  runningInput,
+		metrics: metrics,
 	}
 	return &acc
 }
 
-func (ac *accumulator) AddLine(name string, metrics []influx.Result, err error)  {
-	if m := ac.getter.GetMetric(name, metrics, err); m != nil {
-		ac.metrics <- m
-	}
+func (ac *accumulator) AddLine(name string, metrics []influx.Result, err error) {
+	ac.metrics <- ac.getter.GetMetric(name, "line", metrics, err)
+}
 
-
+// AddBar
+func (ac *accumulator) AddBar(name string, metrics []influx.Result, err error) {
+	ac.metrics <- ac.getter.GetMetric(name, "bar", metrics, err)
 }
