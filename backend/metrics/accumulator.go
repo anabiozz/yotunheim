@@ -3,6 +3,8 @@ package metrics
 import (
 	"heimdall_project/yotunheim/backend/common/datastore"
 
+	"heimdall_project/yotunheim/backend"
+
 	influx "github.com/influxdata/influxdb/client/v2"
 )
 
@@ -26,10 +28,14 @@ func NewAccumulator(runningInput MetricGetter, metrics chan datastore.InfluxMetr
 }
 
 func (ac *accumulator) AddLine(name string, metrics []influx.Result, err error) {
-	ac.metrics <- ac.getter.GetMetric(name, "line", metrics, err)
+	ac.metrics <- ac.getter.GetMetric(name, backend.Counter, metrics, err)
 }
 
 // AddBar
 func (ac *accumulator) AddBar(name string, metrics []influx.Result, err error) {
-	ac.metrics <- ac.getter.GetMetric(name, "bar", metrics, err)
+	ac.metrics <- ac.getter.GetMetric(name, backend.Histogram, metrics, err)
+}
+
+func (ac *accumulator) AddTable(name string, metrics []influx.Result, err error) {
+	ac.metrics <- ac.getter.GetMetric(name, backend.Table, metrics, err)
 }

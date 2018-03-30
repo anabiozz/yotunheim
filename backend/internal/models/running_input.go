@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"heimdall_project/yotunheim/backend"
 	"heimdall_project/yotunheim/backend/common/datastore"
-	"log"
 	"time"
 
 	influx "github.com/influxdata/influxdb/client/v2"
@@ -17,18 +16,53 @@ type RunningInput struct {
 
 // GetMetric ...
 func (r *RunningInput) GetMetric(name string, chartType string, metrics []influx.Result, err error) datastore.InfluxMetrics {
+
 	influxMetrics := datastore.InfluxMetrics{}
 	influxMetrics.Metric = make(map[string][]interface{}, 0)
-	if len(metrics) > 0 && len(metrics[0].Series) > 0 {
-		for _, ser := range metrics[0].Series[0].Values {
-			log.Println(ser)
-			influxMetricItem := datastore.InfluxMetricItem{}
-			t, _ := time.Parse(time.RFC3339, ser[0].(string))
-			influxMetricItem.Timestamp = fmt.Sprintf("%02d:%02d:%02d", t.Hour(), t.Minute(), t.Second())
-			influxMetricItem.Payload = ser[1]
-			influxMetrics.Metric[name] = append(influxMetrics.Metric[name], influxMetricItem)
+
+	switch chartType {
+
+	case backend.Counter:
+		if len(metrics) > 0 && len(metrics[0].Series) > 0 {
+			for _, values := range metrics[0].Series[0].Values {
+				influxMetricItem := datastore.InfluxMetricItem{}
+				t, _ := time.Parse(time.RFC3339, values[0].(string))
+				influxMetricItem.Xline = fmt.Sprintf("%02d:%02d:%02d", t.Hour(), t.Minute(), t.Second())
+				influxMetricItem.Payload = values[1]
+				influxMetrics.Metric[name] = append(influxMetrics.Metric[name], influxMetricItem)
+			}
+			influxMetrics.ChartType = chartType
 		}
-		influxMetrics.ChartType = chartType
+
+	case backend.Histogram:
+		if len(metrics) > 0 && len(metrics[0].Series) > 0 {
+			for _, values := range metrics[0].Series[0].Values {
+				influxMetricItem := datastore.InfluxMetricItem{}
+				influxMetricItem.Xline = values[2]
+				influxMetricItem.Payload = values[1]
+				influxMetrics.Metric[name] = append(influxMetrics.Metric[name], influxMetricItem)
+			}
+			influxMetrics.ChartType = chartType
+		}
+
+	case backend.Table:
+		if len(metrics) > 0 && len(metrics[0].Series) > 0 {
+			valueMap := make(map[string]interface{}, 0)
+
+			for _, values := range metrics[0].Series[0].Values {
+
+				influxMetricItem := datastore.InfluxMetricItem{}
+
+				for i, value := range values {
+					valueMap[metrics[0].Series[0].Columns[i]] = value
+				}
+
+				influxMetricItem.PayloadArray = append(influxMetricItem.PayloadArray, valueMap)
+				influxMetrics.Metric[name] = append(influxMetrics.Metric[name], influxMetricItem)
+			}
+
+			influxMetrics.ChartType = chartType
+		}
 	}
 	return influxMetrics
 }

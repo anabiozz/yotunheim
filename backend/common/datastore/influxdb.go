@@ -24,8 +24,9 @@ type InfluxErr struct {
 
 // InfluxMetricItem ...
 type InfluxMetricItem struct {
-	Timestamp interface{} `json:"timestamp"`
-	Payload   interface{} `json:"payload"`
+	Payload      interface{}   `json:"payload"`
+	PayloadArray []interface{} `json:"payload_arr"`
+	Xline        interface{}   `json:"xline"`
 }
 
 // Influx ...

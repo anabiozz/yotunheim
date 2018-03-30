@@ -11,8 +11,8 @@ import (
 type DiskStats struct{}
 
 func (_ DiskStats) Gather(c datastore.Datastore, acc backend.Accumulator) {
-	res, err := datastore.QueryDB(c.(influx.Client), "SELECT used_percent, fstype as disk_usage from disk WHERE time >= now() - 5s and device =~ /sda*/")
-	acc.AddBar("disk", res, err)
+	res, err := datastore.QueryDB(c.(influx.Client), "SELECT * from disk WHERE time >= now() - 5s")
+	acc.AddTable("disk", res, err)
 }
 
 func init() {

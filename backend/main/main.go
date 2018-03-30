@@ -26,6 +26,8 @@ var (
 )
 
 func main() {
+
+	//****************************************************************************************//
 	// set up logs parameters
 	log.SetOutput(os.Stdout)
 	log.SetFlags(log.Ltime | log.LUTC)
@@ -36,6 +38,8 @@ func main() {
 	tmpl.Layout("index.html")
 	app.RegisterView(tmpl)
 
+	//****************************************************************************************//
+
 	// get uuid
 	uuid, err := utility.GenerateUUID()
 	if err != nil {
@@ -44,6 +48,8 @@ func main() {
 		}
 		handleError(uuid, err, bugMsg)
 	}
+
+	//****************************************************************************************//
 
 	// Cretate new datastore
 	db, err := datastore.NewDatastore(datastore.INFLUXDB, "http://localhost:8086")
@@ -55,7 +61,7 @@ func main() {
 		handleError(uuid, err, bugMsg)
 	}
 
-	env := common.Env{DB: db}
+	//****************************************************************************************//
 
 	// Create new config
 	newConfig := config.NewConfig()
@@ -65,12 +71,17 @@ func main() {
 
 	// Filling InputFilters
 	for _, value := range inputs {
+		log.Println(value)
 		newConfig.AddInput(value.(string))
 	}
 
 	if len(newConfig.Inputs) == 0 {
 		log.Fatalf("ERROR: no inputs found, did you provide a valid config file?")
 	}
+
+	//****************************************************************************************//
+
+	env := common.Env{DB: db}
 
 	// Handlers
 	app.Handle("GET", "/", handlers.HomeHandler)
