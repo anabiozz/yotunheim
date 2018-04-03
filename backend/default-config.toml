@@ -16,4 +16,4 @@ omit_hostname = false
 
 # Default input plagins
 [InputFilters]
-inputs  = ["cpu", "mem", "disk", "diskio", "kernel"]
+inputs  = ["cpu", "mem", "kernel", "disk", "diskio", "processes", "linux_sysctl_fs", "netstat", "net"]

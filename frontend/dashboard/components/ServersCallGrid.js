@@ -1,18 +1,6 @@
 import React from 'react'
 import { LineChart, BarChart, Bar, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts'
-import ReactTable from 'react-table'
-import {
-  Table,
-  TableBody,
-  TableHeader,
-  TableHeaderColumn,
-  TableRow,
-  TableRowColumn,
-} from 'material-ui/Table';
-import injectTapEventPlugin from 'react-tap-event-plugin';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
-import {green100, green500, green700} from 'material-ui/styles/colors';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import {Table, Row, Col} from 'react-materialize';
 
 export default class ChartCell extends React.Component {
     constructor(...props) {
@@ -56,53 +44,36 @@ export default class ChartCell extends React.Component {
 
     _renderTable(chartData){
 
-        const muiTheme = getMuiTheme({
-            palette: {
-              primary1Color: green500,
-              primary2Color: green700,
-              primary3Color: green100,
-            },
-            },
-            {
-            avatar: {
-              borderColor: null,
-            },
-          });
-
         return Object.entries(chartData).map(([key, value], i) => {
-           
-            value = value[0].payload_arr
-
             return (
-                <div key={i}>
-                    <MuiThemeProvider muiTheme={muiTheme}>
-                        <Table>
-                        <TableHeader>
-                            <TableRow key={i}>
-                                {
-                                    Object.keys(value[0]).map(key => 
-                                        <TableHeaderColumn key={i}>{key}</TableHeaderColumn>
-                                    )
-                                }
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
+                <div>
+                    <div className='table_name'>{key}</div>
+                    <Table className='table' responsive={true} centered={true} bordered={true}>
+                        <thead>
+                        <tr>
                             {
-                                value.map(function(val, i) {
-                                    return (
-                                        <TableRow key={i}>
+                                Object.keys(value[0].payload_arr[0]).map((key, j) =>
+                                    <th key={j} data-field={key}>{key}</th>
+                                )
+                            }
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {
+                            value.map(function(val, i) {
+                                return (
+                                    <tr key={i}>
                                         {
-                                            Object.keys(val).map(key => 
-                                                <TableRowColumn key={i}> {val[key]}</TableRowColumn>
+                                            Object.keys(val.payload_arr[0]).map((key, j) =>
+                                                <td key={j}>{val.payload_arr[0][key]}</td>
                                             )
                                         }
-                                        </TableRow>
-                                    )
-                                })
-                            }
-                        </TableBody>
-                        </Table>
-                    </MuiThemeProvider>
+                                    </tr>
+                                )
+                            })
+                        }
+                        </tbody>
+                    </Table>
                 </div>
             )
         })
@@ -110,23 +81,33 @@ export default class ChartCell extends React.Component {
 
     render() {
         let { chartData } = this.props
-        console.log(chartData)
-        let result = []
+        // console.log(chartData)
+        let charts = []
+        let tabels = []
         if(chartData.Metrics !== undefined) {
             for (let index = 0; index < chartData.Metrics.length; index++) {
                 switch (chartData.Metrics[index].ChartType) {
                     case 'counter':
-                        result.push(this._renderLine(chartData.Metrics[index].Metric))
+                        charts.push(this._renderLine(chartData.Metrics[index].Metric))
                         break
                     case  'histogram':
-                        result.push(this._renderBar(chartData.Metrics[index].Metric))
+                        charts.push(this._renderBar(chartData.Metrics[index].Metric))
                         break
                     case  'table':
-                        result.push(this._renderTable(chartData.Metrics[index].Metric))
+                        tabels.push(this._renderTable(chartData.Metrics[index].Metric))
                         break
                 }
             }
-            return <div className='row'>{ result }</div>
+            return (
+                <div>
+                    <Row className='chart_row'>
+                        <Col l={12} m={12} className='grid-example'>{charts}</Col>
+                    </Row>
+                    <Row className='table_row'>
+                        <Col l={12} m={12} className='grid-example'>{tabels}</Col>
+                    </Row>
+                </div>
+            )
         }
         return <div>no data</div>
     }

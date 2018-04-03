@@ -47,13 +47,17 @@ func (r *RunningInput) GetMetric(name string, chartType string, metrics []influx
 
 	case backend.Table:
 		if len(metrics) > 0 && len(metrics[0].Series) > 0 {
-			valueMap := make(map[string]interface{}, 0)
 
 			for _, values := range metrics[0].Series[0].Values {
+				valueMap := make(map[string]interface{}, 0)
 
 				influxMetricItem := datastore.InfluxMetricItem{}
 
 				for i, value := range values {
+					if metrics[0].Series[0].Columns[i] == "time" || value == 0 {
+						continue
+					}
+					fmt.Println(value)
 					valueMap[metrics[0].Series[0].Columns[i]] = value
 				}
 

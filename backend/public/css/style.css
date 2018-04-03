@@ -1,5 +1,4 @@
 * {margin: 0; padding: 0;}
-
 body {
     font-size: 13px;
 }
@@ -37,18 +36,53 @@ hr {
    * Main content
    */
 
-  .container {
-    padding: 50px;
+.container {
+    padding: 0;
     height: 100%;
     width: 100%;
-  }
+}
 
-  .chart{
-      width: 33%;  /* Or whatever */
-      margin: auto;
-  }
+.chart_row .col {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.table_row {
+    margin-top: 150px;
+    margin-left: 120px;
+    margin-right: 120px;
+}
+
+.table_name {
+    font-size: 22px;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+.chart{
+    width: 30%;
+    height:100%;
+    margin: auto;
+}
+
+.table {
+    margin-bottom: 50px;
+}
+
+/* table.responsive-table thead {
+    display: block;
+    float: left;
+} */
+
+.recharts-wrapper {
+    width:100% !important;
+    height:100%;
+    margin: auto;
+}
 
 .recharts-surface {
+    width:inherit !important;
+    height:100%;
     margin: auto;
-    width: auto;  /* Or whatever */
 }
