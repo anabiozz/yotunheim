@@ -1,10 +1,10 @@
 package endpoints
 
 import (
-	"heimdall_project/yotunheim/backend/common"
-	"heimdall_project/yotunheim/backend/common/datastore"
-	"heimdall_project/yotunheim/backend/internal/config"
-	"heimdall_project/yotunheim/backend/metrics"
+	"github.com/anabiozz/yotunheim/backend/common"
+	"github.com/anabiozz/yotunheim/backend/common/datastore"
+	"github.com/anabiozz/yotunheim/backend/internal/config"
+	"github.com/anabiozz/yotunheim/backend/metrics"
 
 	"github.com/kataras/iris"
 )

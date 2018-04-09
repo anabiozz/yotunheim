@@ -1,0 +1,12 @@
+version: '3'
+services:
+  backend:
+    build: ./backend
+    image: backend:latest
+    ports:
+      # - "8086:8086"
+      - "8080:8080"
+  # frontend:
+  #   build: ./frontend
+  # influx:
+  #   image: "influxdb:1.5"

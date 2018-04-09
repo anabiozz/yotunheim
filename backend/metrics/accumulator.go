@@ -1,9 +1,9 @@
 package metrics
 
 import (
-	"heimdall_project/yotunheim/backend/common/datastore"
+	"github.com/anabiozz/yotunheim/backend/common/datastore"
 
-	"heimdall_project/yotunheim/backend"
+	"github.com/anabiozz/yotunheim/backend"
 
 	influx "github.com/influxdata/influxdb/client/v2"
 )

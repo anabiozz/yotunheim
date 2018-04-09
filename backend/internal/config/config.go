@@ -1,11 +1,12 @@
 package config
 
 import (
+	"flag"
 	"fmt"
-	"heimdall_project/yotunheim/backend/internal/models"
-	"heimdall_project/yotunheim/backend/metrics"
-	"heimdall_project/yotunheim/backend/utils"
 	"time"
+
+	"github.com/anabiozz/yotunheim/backend/internal/models"
+	"github.com/anabiozz/yotunheim/backend/metrics"
 
 	"github.com/BurntSushi/toml"
 )
@@ -82,8 +83,8 @@ func NewConfig() *Config {
 	c := &Config{
 		Agent:        &AgentConfig{},
 		InputFilters: make(map[string]interface{}, 0),
-		//Inputs:        make([]*models.RunningInput, 0),
-		//Outputs:       make([]*models.RunningOutput, 0),
+		// Inputs:       make([]*models.RunningInput, 0),
+		// Outputs:      make([]*models.RunningOutput, 0),
 	}
 	return c
 }
@@ -119,9 +120,14 @@ func (c *Config) AddInput(name string) error {
 	return nil
 }
 
+const (
+	envConfigPath = "PG_API_CONFIG"
+)
+
 // LoadConfig ...
 func (c *Config) LoadConfig() error {
-	_, err := toml.DecodeFile(utils.GetEnv("./backend/default-config.toml", "./backend/default-config.toml"), c)
+	// utils.GetEnv(flag.Arg(0), flag.Arg(0))
+	_, err := toml.DecodeFile(flag.Arg(0), c)
 	if err != nil {
 		return err
 	}

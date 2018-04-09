@@ -1,7 +1,7 @@
 package datastore
 
 import (
-	"heimdall_project/yotunheim/backend/common/utility"
+	"github.com/anabiozz/yotunheim/backend/common/utility"
 
 	influx "github.com/influxdata/influxdb/client/v2"
 )

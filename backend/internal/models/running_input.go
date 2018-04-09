@@ -2,9 +2,10 @@ package models
 
 import (
 	"fmt"
-	"heimdall_project/yotunheim/backend"
-	"heimdall_project/yotunheim/backend/common/datastore"
 	"time"
+
+	"github.com/anabiozz/yotunheim/backend"
+	"github.com/anabiozz/yotunheim/backend/common/datastore"
 
 	influx "github.com/influxdata/influxdb/client/v2"
 )

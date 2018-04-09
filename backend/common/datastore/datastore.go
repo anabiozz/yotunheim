@@ -1,6 +1,6 @@
 package datastore
 
-import "heimdall_project/yotunheim/backend/common/utility"
+import "github.com/anabiozz/yotunheim/backend/common/utility"
 
 //
 type Datastore interface {

@@ -1,5 +1,5 @@
 package metrics
 
 import (
-	_ "heimdall_project/yotunheim/backend/metrics/system"
+	_ "github.com/anabiozz/yotunheim/backend/metrics/system"
 )

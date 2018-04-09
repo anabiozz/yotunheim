@@ -2,9 +2,9 @@
 // import charts from '../backend/configs/config.charts'
 
 const config = {
-    baseDomain: 'https://localhost',
+    baseDomain: 'http://backend',
     timeInterval: 60000,
-    initialState: "",
+    // initialState: "",
     statusesConfig: [
         {
             selector: 0,
@@ -147,4 +147,4 @@ const config = {
     statusMedium: 'm16.260624,10.709404l6,9l-6,0l-6,0l6,-9z',
     statusLow: 'm12.017635,16.323075l-0.82,0.82l3.254,3.254l7,-7l-0.821,-0.82l-6.179,6.179l-2.434,-2.433z'
 }
-export default config;
+export default config

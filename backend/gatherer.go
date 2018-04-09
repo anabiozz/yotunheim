@@ -1,6 +1,6 @@
 package backend
 
-import "heimdall_project/yotunheim/backend/common/datastore"
+import "github.com/anabiozz/yotunheim/backend/common/datastore"
 
 type Gatherer interface {
 	Gather(c datastore.Datastore, acc Accumulator)

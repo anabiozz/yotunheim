@@ -1,9 +1,9 @@
 package system
 
 import (
-	"heimdall_project/yotunheim/backend"
-	"heimdall_project/yotunheim/backend/common/datastore"
-	"heimdall_project/yotunheim/backend/metrics"
+	"github.com/anabiozz/yotunheim/backend"
+	"github.com/anabiozz/yotunheim/backend/common/datastore"
+	"github.com/anabiozz/yotunheim/backend/metrics"
 
 	influx "github.com/influxdata/influxdb/client/v2"
 )

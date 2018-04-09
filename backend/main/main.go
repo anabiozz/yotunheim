@@ -2,15 +2,17 @@ package main
 
 import (
 	"fmt"
-	"heimdall_project/yotunheim/backend/common"
-	"heimdall_project/yotunheim/backend/common/datastore"
-	"heimdall_project/yotunheim/backend/common/utility"
-	"heimdall_project/yotunheim/backend/endpoints"
-	"heimdall_project/yotunheim/backend/handlers"
-	"heimdall_project/yotunheim/backend/internal/config"
-	_ "heimdall_project/yotunheim/backend/metrics/all"
 	"log"
 	"os"
+
+	"github.com/anabiozz/yotunheim/backend/common"
+	"github.com/anabiozz/yotunheim/backend/common/datastore"
+	"github.com/anabiozz/yotunheim/backend/common/utility"
+	"github.com/anabiozz/yotunheim/backend/endpoints"
+	"github.com/anabiozz/yotunheim/backend/handlers"
+	_ "github.com/anabiozz/yotunheim/backend/metrics/all"
+
+	"github.com/anabiozz/yotunheim/backend/internal/config"
 
 	"github.com/kataras/iris"
 )
