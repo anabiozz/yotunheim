@@ -8,17 +8,28 @@ import thunkMiddleware from 'redux-thunk';
 import routes from './routes';
 import * as reducers from './flux/reduser';
 import { syncHistoryWithStore, routerReducer } from 'react-router-redux';
+import DashboardServersCharts from './dashboard/containers/DashboardServersCharts'
+
 reducers.routing = routerReducer;
 
 const store = createStore(combineReducers(reducers), applyMiddleware(thunkMiddleware));
 const history = syncHistoryWithStore(browserHistory, store);
-// history.push('/dashboard')
 
 function run () {
+
+    if (module.hot) {
+        ReactDOM.render(
+            <Provider store={store}>
+                <Router routes={routes('alex')} history={history}/>
+            </Provider>
+            , document.getElementById('root'));
+    }
+
     ReactDOM.render(
-    <Provider store={store}>
-        <Router routes={routes('alex')} history={history}/>
-    </Provider>, document.getElementById('root'));
+            <Provider store={store}>
+                <Router routes={routes('alex')} history={history}/>
+            </Provider>
+    , document.getElementById('root'));
 }
 
 function init () {

@@ -57,7 +57,6 @@ func (r *RunningInput) GetMetric(name string, chartType string, metrics []influx
 					if metrics[0].Series[0].Columns[i] == "time" || value == 0 {
 						continue
 					}
-					fmt.Println(value)
 					valueMap[metrics[0].Series[0].Columns[i]] = value
 				}
 

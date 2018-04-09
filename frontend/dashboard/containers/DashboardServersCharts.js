@@ -35,14 +35,14 @@ class DashboardServersCharts extends React.Component {
     console.log('DashboardServersCharts render');
 
     clearTimeout(this.timeout)
-    this.timeout = setTimeout(this.updateData, 6000)
+    this.timeout = setTimeout(this.updateData, 4000)
 
     const { json } = this.props
     return <div className='row main-row'>
-          <Layout mode={this.props.route.mode}> 
-            <div>
-              { <ChartCell chartData={json}/>}
-            </div>
+          <Layout mode={this.props.route.mode}>
+              <div>
+                { <ChartCell chartData={json}/>}
+              </div>
             </Layout>
         </div>
   }
