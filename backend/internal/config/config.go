@@ -1,20 +1,21 @@
 package config
 
 import (
-	"time"
-	"github.com/BurntSushi/toml"
-	"heimdall_project/yotunheim/backend/utils"
 	"fmt"
-	"heimdall_project/yotunheim/backend/metrics"
 	"heimdall_project/yotunheim/backend/internal/models"
+	"heimdall_project/yotunheim/backend/metrics"
+	"heimdall_project/yotunheim/backend/utils"
+	"time"
+
+	"github.com/BurntSushi/toml"
 )
 
 // Config struct
 type Config struct {
-	Agent   *AgentConfig
-	InputFilters  map[string]interface{}
+	Agent        *AgentConfig
+	InputFilters map[string]interface{}
 
-	Inputs  []*models.RunningInput
+	Inputs []*models.RunningInput
 }
 
 type AgentConfig struct {
@@ -79,8 +80,8 @@ type AgentConfig struct {
 // NewConfig return new config
 func NewConfig() *Config {
 	c := &Config{
-		Agent:         &AgentConfig{},
-		InputFilters:  make(map[string]interface{}, 0),
+		Agent:        &AgentConfig{},
+		InputFilters: make(map[string]interface{}, 0),
 		//Inputs:        make([]*models.RunningInput, 0),
 		//Outputs:       make([]*models.RunningOutput, 0),
 	}
@@ -120,7 +121,7 @@ func (c *Config) AddInput(name string) error {
 
 // LoadConfig ...
 func (c *Config) LoadConfig() error {
-	_, err := toml.DecodeFile(utils.GetEnv("../default-config.toml", "../default-config.toml"), c)
+	_, err := toml.DecodeFile(utils.GetEnv("./backend/default-config.toml", "./backend/default-config.toml"), c)
 	if err != nil {
 		return err
 	}

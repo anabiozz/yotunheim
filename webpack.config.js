@@ -1,12 +1,12 @@
-const path = require("path");
-const webpack = require('webpack');
-const HtmlWebPackPlugin = require("html-webpack-plugin");
+const path = require('path')
+// const webpack = require('webpack')
+// const HtmlWebPackPlugin = require('html-webpack-plugin')
 
 module.exports = {
-    entry: ["./frontend/main.js"],
+    entry: ['./frontend/main.js'],
     output: {
-        path: path.resolve(__dirname, "backend/public"),
-        filename: "bundle.js"
+        path: path.resolve(__dirname, 'backend/public'),
+        filename: 'bundle.js'
     },
     module: {
         rules: [
@@ -14,7 +14,7 @@ module.exports = {
                 test: /\.html$/,
                 use: [
                     {
-                        loader: "html-loader"
+                        loader: 'html-loader'
                     }
                 ]
             },
@@ -35,12 +35,12 @@ module.exports = {
     performance : {
         hints : false
     },
-    plugins: [
-        new webpack.HotModuleReplacementPlugin()
-    ],
-    resolve: {
-        extensions: ['.js', 'jsx']
-    }
+    // plugins: [
+    //     new webpack.HotModuleReplacementPlugin()
+    // ],
+    // resolve: {
+    //     extensions: ['.js', 'jsx']
+    // }
 
     // plugins: [
     //     new HtmlWebPackPlugin({
@@ -48,4 +48,4 @@ module.exports = {
     //         filename: "./index.html"
     //     })
     // ]
-};
+}
