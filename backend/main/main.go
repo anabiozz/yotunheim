@@ -36,7 +36,7 @@ func main() {
 
 	// Iris parameters
 	app := iris.Default()
-	tmpl := iris.HTML("../public", ".html")
+	tmpl := iris.HTML("../go/src/github.com/anabiozz/yotunheim/backend/public", ".html")
 	tmpl.Layout("index.html")
 	app.RegisterView(tmpl)
 
@@ -54,7 +54,7 @@ func main() {
 	//****************************************************************************************//
 
 	// Cretate new datastore
-	db, err := datastore.NewDatastore(datastore.INFLUXDB, "http://localhost:8086")
+	db, err := datastore.NewDatastore(datastore.INFLUXDB, "http://influxdb:8086")
 	if err != nil {
 		if _, ok := err.(datastore.DatastoreErr); ok {
 			bugMsg = err.Error()
@@ -63,12 +63,15 @@ func main() {
 		handleError(uuid, err, bugMsg)
 	}
 
+	fmt.Println(db)
+
 	//****************************************************************************************//
 
 	// Create new config
 	newConfig := config.NewConfig()
 	// Filling new config getting data from default config
 	err = newConfig.LoadConfig()
+	fmt.Println(newConfig.InputFilters)
 	inputs := newConfig.InputFilters["inputs"].([]interface{})
 
 	// Filling InputFilters
@@ -92,9 +95,9 @@ func main() {
 	//Endpoints
 	app.Handle("GET", "/api/get-json", endpoints.GetJSONnEndpoint(&env, newConfig))
 
-	app.StaticWeb("/", "../public")
+	app.StaticWeb("/", "../go/src/github.com/anabiozz/yotunheim/backend/public")
 	app.Run(
-		iris.Addr("localhost:8080"),
+		iris.Addr("backend:8080"),
 		// disables updates:
 		iris.WithoutVersionChecker,
 		// skip err server closed when CTRL/CMD+C pressed:

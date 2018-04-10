@@ -1,7 +1,6 @@
 package config
 
 import (
-	"flag"
 	"fmt"
 	"time"
 
@@ -9,6 +8,9 @@ import (
 	"github.com/anabiozz/yotunheim/backend/metrics"
 
 	"github.com/BurntSushi/toml"
+	//"github.com/anabiozz/yotunheim/backend/utils"
+	"flag"
+	"github.com/anabiozz/yotunheim/backend/utils"
 )
 
 // Config struct
@@ -120,14 +122,11 @@ func (c *Config) AddInput(name string) error {
 	return nil
 }
 
-const (
-	envConfigPath = "PG_API_CONFIG"
-)
-
 // LoadConfig ...
 func (c *Config) LoadConfig() error {
-	// utils.GetEnv(flag.Arg(0), flag.Arg(0))
-	_, err := toml.DecodeFile(flag.Arg(0), c)
+	flag.Parse()
+	fmt.Println(flag.Arg(0))
+	_, err := toml.DecodeFile(utils.GetEnv(flag.Arg(0), flag.Arg(0)), c)
 	if err != nil {
 		return err
 	}

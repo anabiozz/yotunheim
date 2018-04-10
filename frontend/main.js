@@ -15,15 +15,6 @@ const store = createStore(combineReducers(reducers), applyMiddleware(thunkMiddle
 const history = syncHistoryWithStore(browserHistory, store)
 
 function run () {
-
-    if (module.hot) {
-        ReactDOM.render(
-            <Provider store={store}>
-                <Router routes={routes('alex')} history={history}/>
-            </Provider>
-            , document.getElementById('root'))
-    }
-
     ReactDOM.render(
             <Provider store={store}>
                 <Router routes={routes('alex')} history={history}/>

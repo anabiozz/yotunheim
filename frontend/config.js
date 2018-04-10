@@ -2,7 +2,7 @@
 // import charts from '../backend/configs/config.charts'
 
 const config = {
-    baseDomain: 'http://backend',
+    baseDomain: 'backend:8080',
     timeInterval: 60000,
     // initialState: "",
     statusesConfig: [

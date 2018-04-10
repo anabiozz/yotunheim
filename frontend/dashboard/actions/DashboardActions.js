@@ -16,13 +16,9 @@ import {
       dispatch({
         type: GET_SERVERS_REQUEST
       })
-      let domain = config.baseDomain
-      if (typeof window !== 'undefined') {
-          domain = window.location.origin
-      }
-      return fetch(domain + '/api/get-json', {
+      return fetch(config.baseDomain + '/api/get-json', {
         method: 'get',
-              credentials: 'include'
+              // credentials: 'include'
       })
         .then(response => response.json())
         .then(response => dispatch(receiveSuccess(response)))

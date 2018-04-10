@@ -3,9 +3,9 @@ const path = require('path')
 // const HtmlWebPackPlugin = require('html-webpack-plugin')
 
 module.exports = {
-    entry: ['./frontend/main.js'],
+    entry: ['./main.js'],
     output: {
-        path: path.resolve(__dirname, 'backend/public'),
+        path: path.resolve(__dirname, '../backend/public'),
         filename: 'bundle.js'
     },
     module: {
