@@ -4,9 +4,9 @@ import {
     GET_SERVERS_ERROR,
     GET_SERVERS_RESET,
     DISMISS_SERVERS_ERROR,
-  } from '../constants';
-  import fetch from 'isomorphic-fetch';
-  import config from '../../config';
+  } from '../constants'
+  import fetch from 'isomorphic-fetch'
+  import config from '../../config'
   
   const receiveSuccess = response => ({ type: GET_SERVERS_SUCCESS, response })
   const receiveFail = error => ({ type: GET_SERVERS_ERROR, error })

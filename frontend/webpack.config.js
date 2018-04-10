@@ -1,8 +1,7 @@
 const path = require('path')
-// const webpack = require('webpack')
-// const HtmlWebPackPlugin = require('html-webpack-plugin')
 
 module.exports = {
+    mode: 'development',
     entry: ['./main.js'],
     output: {
         path: path.resolve(__dirname, '../backend/public'),
@@ -19,33 +18,13 @@ module.exports = {
                 ]
             },
             {
-                test: /\.(js|jsx)$/,
+                test: /\.(js)$/,
                 exclude: /node_modules/,
-                loader: require.resolve('babel-loader'),
-                options: {
-                    // This is a feature of `babel-loader` for Webpack (not Babel itself).
-                    // It enables caching results in ./node_modules/.cache/babel-loader/
-                    // directory for faster rebuilds.
-                    cacheDirectory: true,
-                    plugins: ['react-hot-loader/babel'],
-                },
-            }
+                use: ['babel-loader']
+            },
         ]
     },
     performance : {
         hints : false
-    },
-    // plugins: [
-    //     new webpack.HotModuleReplacementPlugin()
-    // ],
-    // resolve: {
-    //     extensions: ['.js', 'jsx']
-    // }
-
-    // plugins: [
-    //     new HtmlWebPackPlugin({
-    //         template: "./backend/public/index.html",
-    //         filename: "./index.html"
-    //     })
-    // ]
+    }
 }
