@@ -1,7 +1,7 @@
-import React from 'react';
-import connect from 'react-redux/lib/connect/connect';
+import React from 'react'
+import connect from 'react-redux/lib/connect/connect'
 //Components
-import Navbar from '../components/Navigation';
+import Navbar from '../components/Navigation'
 
 class Layout extends React.Component {
 	constructor(...props) {
@@ -24,22 +24,24 @@ class Layout extends React.Component {
 	render() {
 		const { user, mode } = this.props
 		console.log('RENDER <Layout>')
+		console.log(user)
 
 		const childrenWithProps = React.Children.map(this.props.children,
             (child) => React.cloneElement(child, {
 				getRefresher: this.getRefresher
 			})
-        );
+        )
 		return <div className='container-fluid'>
-            {<Navbar name="alex" makeRefresh={this.makeRefresh} mode={mode} />}
+            {<Navbar name='alex' makeRefresh={this.makeRefresh} mode={mode} />}
             {childrenWithProps}
         </div>
 	}
 }
 
 function mapStateToProps (state) {
+	console.log(state)
 	return {
-		user: "alex"
+		user: 'alex'
 	}
 }
 

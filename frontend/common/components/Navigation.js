@@ -1,8 +1,8 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Link from 'react-router/lib/Link';
-import NavDropdown from 'react-bootstrap/lib/NavDropdown';
-import MenuItem from 'react-bootstrap/lib/MenuItem';
+import React from 'react'
+import PropTypes from 'prop-types'
+import Link from 'react-router/lib/Link'
+import NavDropdown from 'react-bootstrap/lib/NavDropdown'
+import MenuItem from 'react-bootstrap/lib/MenuItem'
 
 export default class Navbar extends React.Component {
     render() {

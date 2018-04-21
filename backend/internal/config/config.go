@@ -10,7 +10,12 @@ import (
 	"github.com/BurntSushi/toml"
 	//"github.com/anabiozz/yotunheim/backend/utils"
 	"flag"
+
 	"github.com/anabiozz/yotunheim/backend/utils"
+)
+
+const (
+	envConfigPath = "DEFAULT_CONFIG"
 )
 
 // Config struct
@@ -125,8 +130,7 @@ func (c *Config) AddInput(name string) error {
 // LoadConfig ...
 func (c *Config) LoadConfig() error {
 	flag.Parse()
-	fmt.Println(flag.Arg(0))
-	_, err := toml.DecodeFile(utils.GetEnv(flag.Arg(0), flag.Arg(0)), c)
+	_, err := toml.DecodeFile(utils.GetEnv("envConfigPath", flag.Arg(0)), c)
 	if err != nil {
 		return err
 	}

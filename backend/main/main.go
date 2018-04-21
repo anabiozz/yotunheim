@@ -97,7 +97,7 @@ func main() {
 
 	app.StaticWeb("/", "../go/src/github.com/anabiozz/yotunheim/backend/public")
 	app.Run(
-		iris.Addr("backend:8080"),
+		iris.Addr("yotunheim:8080"),
 		// disables updates:
 		iris.WithoutVersionChecker,
 		// skip err server closed when CTRL/CMD+C pressed:

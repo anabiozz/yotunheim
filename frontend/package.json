@@ -43,7 +43,7 @@
     "webpack-cli": "^2.0.14"
   },
   "scripts": {
-    "build": "watchify main.js -o ../backend/public/bundle.js -t [ babelify --presets [ react es2015 stage-0 ] ]"
+    "build": "webpack --progress --colors --watch"
   },
   "staff": {
     "webpack --progress --colors --watch": ""

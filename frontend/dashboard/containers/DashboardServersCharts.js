@@ -1,22 +1,22 @@
-import React from 'react';
-import connect from 'react-redux/lib/connect/connect';
-import { getJson, reset, dismissError } from '../actions/DashboardActions';
-import bindActionCreators from 'redux/lib/bindActionCreators';
+import React from 'react'
+import connect from 'react-redux/lib/connect/connect'
+import { getJson, reset, dismissError } from '../actions/DashboardActions'
+import bindActionCreators from 'redux/lib/bindActionCreators'
 
 //Components
-import ChartCell from '../components/ServersCallGrid';
-import Layout from '../../common/containers/Layout';
+import ChartCell from '../components/ServersCallGrid'
+import Layout from '../../common/containers/Layout'
 
 class DashboardServersCharts extends React.Component {
   constructor(...props) {
-    super(...props);
+    super(...props)
     
     this.updateData = this.updateData.bind(this)
   }
 
   updateData() {
-    this.props.dismissError();
-    this.props.getJson();
+    this.props.dismissError()
+    this.props.getJson()
   }
 
   componentWillUnmount() {
@@ -32,7 +32,7 @@ class DashboardServersCharts extends React.Component {
   }
 
   render() {
-    console.log('DashboardServersCharts render');
+    console.log('DashboardServersCharts render')
 
     clearTimeout(this.timeout)
     this.timeout = setTimeout(this.updateData, 4000)
@@ -41,9 +41,9 @@ class DashboardServersCharts extends React.Component {
     return <div className='row main-row'>
           <Layout mode={this.props.route.mode}>
               <div>
-                { <ChartCell chartData={json}/>}
+                { <ChartCell data={json}/>}
               </div>
-            </Layout>
+          </Layout>
         </div>
   }
 }

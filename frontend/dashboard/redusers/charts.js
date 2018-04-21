@@ -4,7 +4,7 @@ import {
     GET_SERVERS_ERROR,
     GET_SERVERS_RESET,
     DISMISS_SERVERS_ERROR,
-  } from '../constants';
+  } from '../constants'
   
   const initialState = {
     stats:[],
@@ -26,7 +26,7 @@ import {
       case DISMISS_SERVERS_ERROR:
         return { ...state, errors: null }
       default:
-        return state;
+        return state
     }
   }
   
