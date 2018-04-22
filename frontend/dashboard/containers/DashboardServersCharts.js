@@ -5,7 +5,6 @@ import bindActionCreators from 'redux/lib/bindActionCreators'
 
 //Components
 import ChartCell from '../components/ServersCallGrid'
-import Layout from '../../common/containers/Layout'
 
 class DashboardServersCharts extends React.Component {
   constructor(...props) {
@@ -32,19 +31,18 @@ class DashboardServersCharts extends React.Component {
   }
 
   render() {
-    console.log('DashboardServersCharts render')
+    console.log('RENDER <DashboardServersCharts>')
 
     clearTimeout(this.timeout)
     this.timeout = setTimeout(this.updateData, 4000)
 
     const { json } = this.props
-    return <div className='row main-row'>
-          <Layout mode={this.props.route.mode}>
-              <div>
-                { <ChartCell data={json}/>}
-              </div>
-          </Layout>
-        </div>
+
+    return (
+      <div className='row main-row'>
+        <ChartCell data={json}/>
+      </div>
+    )
   }
 }
 function mapStateToProps(state) {

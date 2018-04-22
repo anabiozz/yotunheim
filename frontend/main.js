@@ -1,5 +1,5 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
+import { render } from 'react-dom'
 import { createStore, combineReducers, applyMiddleware } from 'redux'
 import Provider from 'react-redux/lib/components/Provider'
 import browserHistory from 'react-router/lib/browserHistory'
@@ -15,11 +15,12 @@ const store = createStore(combineReducers(reducers), applyMiddleware(thunkMiddle
 const history = syncHistoryWithStore(browserHistory, store)
 
 function run () {
-    ReactDOM.render(
-            <Provider store={store}>
-                <Router routes={routes('alex')} history={history}/>
-            </Provider>
-    , document.getElementById('root'))
+    
+    render(
+        <Provider store={store}>
+            <Router routes={routes('alex')} history={history}/>
+        </Provider>, document.getElementById('root')
+    )
 }
 
 function init () {

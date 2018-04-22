@@ -127,9 +127,7 @@ func main() {
 	// Mux
 	router := mux.NewRouter()
 
-	router.HandleFunc("/", handlers.HomeHandler).Methods("GET")
-
-	router.HandleFunc("/dashboard", func(w http.ResponseWriter, r *http.Request) {
+	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		handlers.DashboardHandler(w, r)
 	}).Methods("GET")
 

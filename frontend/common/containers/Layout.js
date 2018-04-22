@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import connect from 'react-redux/lib/connect/connect'
 //Components
 import Navbar from '../components/Navigation'
@@ -6,38 +6,27 @@ import Navbar from '../components/Navigation'
 class Layout extends React.Component {
 	constructor(...props) {
 		super(...props)
-
-		this.state = {
-			refresher: null
-		}
-		this.getRefresher = this.getRefresher.bind(this)
-		this.makeRefresh = this.makeRefresh.bind(this)
 	}
-	makeRefresh() {
-		this.state.refresher ? this.state.refresher() : console.error('[ERROR] Could not make refresh, method isn\'t defined')
-	}
-	getRefresher(refresher) {
-		this.setState({ refresher })
-	}
+	
 	render() {
-		const { user, mode } = this.props
+		const { mode } = this.props
 		console.log('RENDER <Layout>')
+		console.log(mode)
 
-		const childrenWithProps = React.Children.map(this.props.children,
-            (child) => React.cloneElement(child, {
-				getRefresher: this.getRefresher
-			})
-        )
 		return <div className='container-fluid'>
-            {<Navbar name='alex' makeRefresh={this.makeRefresh} mode={mode} />}
-            {childrenWithProps}
+            {<Navbar name='alex' mode={mode} />}
+            {this.props.children}
         </div>
 	}
 }
 
+Layout.propTypes = {
+	children: PropTypes.object.isRequired
+}
+
 function mapStateToProps (state) {
 	return {
-		user: 'alex'
+		user: state
 	}
 }
 

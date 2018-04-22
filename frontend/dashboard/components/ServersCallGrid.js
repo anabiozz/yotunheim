@@ -2,57 +2,49 @@ import React from 'react'
 import { Chart, Board } from '../../common/components'
 import { Row, Col } from 'react-materialize'
 
-export default class ChartCell extends React.Component {
-    constructor(...props) {
-        super(...props)
+ const ChartCell = ({data}) => {
 
-        this.renderLine = this.renderLine.bind(this)
-        this.renderTable = this.renderTable.bind(this)
-    }
-
-    renderLine(data) {
+    const renderLine = (data) => {
         return Object.entries(data).map(([key, value], i) => {
             return <Chart chartName={key} value={value} i={i}/>
         })
     } 
 
-    renderTable(data) {
-        return Object.entries(data).map(([key, value], i) => {
-            return <Board chartName={key} value={value} i={i}/>
+    const renderTable = (data) => {
+        return Object.entries(data).map(([key, value]) => {
+            return <Board chartName={key} value={value}/>
         })
     }
 
-    render() {
-        let { data } = this.props
-        let charts = []
-        let tabels = []
-        if(data.Metrics !== undefined) {
-            for (let index = 0; index < data.Metrics.length; index++) {
-                switch (data.Metrics[index].ChartType) {
-                    case 'counter':
-                        charts.push(this.renderLine(data.Metrics[index].Metric))
-                        break
-                    case  'histogram':
-                        // charts.push(this._renderBar(chartData.Metrics[index].Metric))
-                        break
-                    case  'table':
-                        tabels.push(this.renderTable(data.Metrics[index].Metric))
-                        break
-                }
+    let charts = []
+    let tabels = []
+
+    if(data.Metrics !== undefined) {
+        for (let index = 0; index < data.Metrics.length; index++) {
+            switch (data.Metrics[index].ChartType) {
+                case 'counter':
+                    charts.push(renderLine(data.Metrics[index].Metric))
+                    break
+                case  'histogram':
+                    // charts.push(this._renderBar(chartData.Metrics[index].Metric))
+                    break
+                case  'table':
+                    tabels.push(renderTable(data.Metrics[index].Metric))
+                    break
             }
-            return (
-                <div>
-                    <Row className='chart_row'>
-                        <Col l={12} m={12} className='grid-example'>{charts}</Col>
-                    </Row>
-                    <Row className='table_row'>
-                        <Col l={12} m={12} className='grid-example'>{tabels}</Col>
-                    </Row>
-                </div>
-            )
         }
-        return <div>no data</div>
+        return (
+            <div>
+                <Row className='chart_row'>
+                    <Col l={12} m={12} className='grid-example'>{charts}</Col>
+                </Row>
+                <Row className='table_row'>
+                    <Col l={12} m={12} className='grid-example'>{tabels}</Col>
+                </Row>
+            </div>
+        )
     }
+    return <div>no data</div>
 }
 
-ChartCell.propTypes = {}
+export default ChartCell
