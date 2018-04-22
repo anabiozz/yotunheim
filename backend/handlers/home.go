@@ -1,9 +1,12 @@
 package handlers
 
 import (
-	"github.com/kataras/iris"
+	"fmt"
+	"net/http"
 )
 
-func HomeHandler(ctx iris.Context) {
-	ctx.Redirect("/dashboard")
+// HomeHandler ...
+func HomeHandler(w http.ResponseWriter, r *http.Request) {
+	http.Redirect(w, r, fmt.Sprintf("http://%s%s/dashboard", r.Host, r.URL), http.StatusPermanentRedirect)
+	return
 }

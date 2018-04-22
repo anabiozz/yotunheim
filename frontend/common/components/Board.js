@@ -7,7 +7,6 @@ export default class Board extends React.Component {
 
         const { chartName, value, i } = this.props
         console.log('RENDER <Board>')
-        console.log(i)
 
         if (chartName != undefined) {
             return (

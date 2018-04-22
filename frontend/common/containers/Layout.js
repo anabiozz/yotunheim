@@ -14,17 +14,14 @@ class Layout extends React.Component {
 		this.makeRefresh = this.makeRefresh.bind(this)
 	}
 	makeRefresh() {
-		console.log('<Layout> makeRefresh')
 		this.state.refresher ? this.state.refresher() : console.error('[ERROR] Could not make refresh, method isn\'t defined')
 	}
 	getRefresher(refresher) {
-		console.log('<Layout> getRefresher')
 		this.setState({ refresher })
 	}
 	render() {
 		const { user, mode } = this.props
 		console.log('RENDER <Layout>')
-		console.log(user)
 
 		const childrenWithProps = React.Children.map(this.props.children,
             (child) => React.cloneElement(child, {
@@ -39,7 +36,6 @@ class Layout extends React.Component {
 }
 
 function mapStateToProps (state) {
-	console.log(state)
 	return {
 		user: 'alex'
 	}

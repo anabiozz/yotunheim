@@ -1,9 +1,14 @@
 package main
 
 import (
+	"bytes"
+	"context"
 	"fmt"
 	"log"
+	"net/http"
 	"os"
+	"os/signal"
+	"time"
 
 	"github.com/anabiozz/yotunheim/backend/common"
 	"github.com/anabiozz/yotunheim/backend/common/datastore"
@@ -11,10 +16,10 @@ import (
 	"github.com/anabiozz/yotunheim/backend/endpoints"
 	"github.com/anabiozz/yotunheim/backend/handlers"
 	_ "github.com/anabiozz/yotunheim/backend/metrics/all"
+	"github.com/fsnotify/fsnotify"
+	"github.com/gorilla/mux"
 
 	"github.com/anabiozz/yotunheim/backend/internal/config"
-
-	"github.com/kataras/iris"
 )
 
 func handleError(key string, err error, message string) {
@@ -27,18 +32,19 @@ var (
 	bugMsg = "There was an unexpected issue; please report this as a bug."
 )
 
+var (
+	hub *Hub
+)
+
 func main() {
+
+	hub = NewHub()
+	go hub.Run()
 
 	//****************************************************************************************//
 	// set up logs parameters
 	log.SetOutput(os.Stdout)
 	log.SetFlags(log.Ltime | log.LUTC)
-
-	// Iris parameters
-	app := iris.Default()
-	tmpl := iris.HTML("../go/src/github.com/anabiozz/yotunheim/backend/public", ".html")
-	tmpl.Layout("index.html")
-	app.RegisterView(tmpl)
 
 	//****************************************************************************************//
 
@@ -86,23 +92,90 @@ func main() {
 
 	//****************************************************************************************//
 
+	go func() {
+
+		watcher, err := fsnotify.NewWatcher()
+		if err != nil {
+			fmt.Println("ERROR", err)
+		}
+		defer watcher.Close()
+
+		// out of the box fsnotify can watch a single file, or a single directory
+		if err := watcher.Add("/go/src/github.com/anabiozz/yotunheim/backend/public/bundle.js"); err != nil {
+			fmt.Println("ERROR", err)
+		}
+
+		for {
+			select {
+			// watch for events
+			case event := <-watcher.Events:
+
+				fmt.Printf("EVENT! %#v\n", event)
+
+				message := bytes.TrimSpace([]byte("reload"))
+				hub.Broadcast <- message
+
+			// watch for errors
+			case err := <-watcher.Errors:
+				fmt.Println("ERROR", err)
+			}
+		}
+	}()
+
 	env := common.Env{DB: db}
 
-	// Handlers
-	app.Handle("GET", "/", handlers.HomeHandler)
-	app.Handle("GET", "/dashboard", handlers.DashboardHandler)
+	// Mux
+	router := mux.NewRouter()
 
-	//Endpoints
-	app.Handle("GET", "/api/get-json", endpoints.GetJSONnEndpoint(&env, newConfig))
+	router.HandleFunc("/", handlers.HomeHandler).Methods("GET")
 
-	app.StaticWeb("/", "../go/src/github.com/anabiozz/yotunheim/backend/public")
-	app.Run(
-		iris.Addr("yotunheim:8080"),
-		// disables updates:
-		iris.WithoutVersionChecker,
-		// skip err server closed when CTRL/CMD+C pressed:
-		iris.WithoutServerError(iris.ErrServerClosed),
-		// enables faster json serialization and more:
-		iris.WithOptimizations,
-	)
+	router.HandleFunc("/dashboard", func(w http.ResponseWriter, r *http.Request) {
+		handlers.DashboardHandler(w, r)
+	}).Methods("GET")
+
+	router.HandleFunc("/api/get-json", func(w http.ResponseWriter, r *http.Request) {
+		endpoints.GetJSONnEndpoint(w, r, &env, newConfig)
+	}).Methods("GET")
+
+	router.HandleFunc("/reload", func(w http.ResponseWriter, r *http.Request) {
+		ServeWs(hub, w, r)
+	})
+
+	router.PathPrefix("/").Handler(http.StripPrefix("/",
+		http.FileServer(http.Dir("../go/src/github.com/anabiozz/yotunheim/backend/public"))))
+
+	srv := &http.Server{
+		Addr: "yotunheim:8080",
+		// Good practice to set timeouts to avoid Slowloris attacks.
+		WriteTimeout: time.Second * 15,
+		ReadTimeout:  time.Second * 15,
+		IdleTimeout:  time.Second * 60,
+		Handler:      router, // Pass our instance of gorilla/mux in.
+	}
+
+	go func() {
+		if err := srv.ListenAndServe(); err != nil {
+			log.Println(err)
+		}
+	}()
+
+	c := make(chan os.Signal, 1)
+	// We'll accept graceful shutdowns when quit via SIGINT (Ctrl+C)
+	// SIGKILL, SIGQUIT or SIGTERM (Ctrl+/) will not be caught.
+	signal.Notify(c, os.Interrupt)
+
+	// Block until we receive our signal.
+	<-c
+
+	// Create a deadline to wait for.
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*15)
+	defer cancel()
+	// Doesn't block if no connections, but will otherwise wait
+	// until the timeout deadline.
+	srv.Shutdown(ctx)
+	// Optionally, you could run srv.Shutdown in a goroutine and block on
+	// <-ctx.Done() if your application should wait for other services
+	// to finalize based on context cancellation.
+	log.Println("shutting down")
+	os.Exit(0)
 }

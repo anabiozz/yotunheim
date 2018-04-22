@@ -7,8 +7,6 @@ export default class Chart extends React.Component {
 
         const { chartName, value, i } = this.props
 
-        console.log(chartName)
-
         console.log('RENDER <Chart>')
 
         if (chartName != undefined) {

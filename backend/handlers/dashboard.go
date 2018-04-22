@@ -1,12 +1,17 @@
 package handlers
 
 import (
-	"github.com/kataras/iris"
+	"io/ioutil"
+	"net/http"
 )
 
-func DashboardHandler(ctx iris.Context) {
-	if err := ctx.View("index.html"); err != nil {
-		ctx.StatusCode(iris.StatusInternalServerError)
-		ctx.Writef(err.Error())
+// DashboardHandler ..
+func DashboardHandler(w http.ResponseWriter, r *http.Request) {
+	data, err := ioutil.ReadFile(string("../go/src/github.com/anabiozz/yotunheim/backend/public/index.html"))
+	if err == nil {
+		w.Write(data)
+	} else {
+		w.WriteHeader(404)
+		w.Write([]byte("404 Something went wrong - " + http.StatusText(404)))
 	}
 }

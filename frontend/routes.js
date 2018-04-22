@@ -5,7 +5,6 @@ import Route from 'react-router/lib/Route'
 import DashboardServersCharts from './dashboard/containers/DashboardServersCharts'
 
 export default (user) => {
-    console.log('user ' + user)
     // let core_url = process.env.CORE_URL ? process.env.CORE_URL : '/';
     return (
         <Route path='/dashboard' component={DashboardServersCharts} mode={'full'}/>
