@@ -18,7 +18,6 @@ import {
       })
       return fetch(config.baseDomain + '/api/get-json', {
         method: 'get',
-              // credentials: 'include'
       })
         .then(response => response.json())
         .then(response => dispatch(receiveSuccess(response)))

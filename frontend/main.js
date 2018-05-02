@@ -15,7 +15,6 @@ const store = createStore(combineReducers(reducers), applyMiddleware(thunkMiddle
 const history = syncHistoryWithStore(browserHistory, store)
 
 function run () {
-    
     render(
         <Provider store={store}>
             <Router routes={routes('alex')} history={history}/>

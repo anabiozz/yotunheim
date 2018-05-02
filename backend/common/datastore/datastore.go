@@ -2,12 +2,11 @@ package datastore
 
 import "github.com/anabiozz/yotunheim/backend/common/utility"
 
-//
-type Datastore interface {
-}
+// Datastore ...
+type Datastore interface{}
 
-//
-type DatastoreErr struct {
+// Err ...
+type Err struct {
 	error
 }
 
@@ -22,7 +21,7 @@ func NewDatastore(datastoreType int, dbConnectionString string) (Datastore, erro
 	case INFLUXDB:
 		client, err := NewInfluxDatastore(dbConnectionString)
 		if err != nil {
-			return nil, DatastoreErr{(utility.WrapError(err, "cannot create new datastore"))}
+			return nil, Err{(utility.WrapError(err, "cannot create new datastore"))}
 		}
 		return client, nil
 	}

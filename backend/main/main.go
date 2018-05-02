@@ -62,14 +62,12 @@ func main() {
 	// Cretate new datastore
 	db, err := datastore.NewDatastore(datastore.INFLUXDB, "http://influxdb:8086")
 	if err != nil {
-		if _, ok := err.(datastore.DatastoreErr); ok {
+		if _, ok := err.(datastore.Err); ok {
 			bugMsg = err.Error()
 		}
 
 		handleError(uuid, err, bugMsg)
 	}
-
-	fmt.Println(db)
 
 	//****************************************************************************************//
 
@@ -77,7 +75,7 @@ func main() {
 	newConfig := config.NewConfig()
 	// Filling new config getting data from default config
 	err = newConfig.LoadConfig()
-	fmt.Println(newConfig.InputFilters)
+	// fmt.Println(newConfig.InputFilters)
 	inputs := newConfig.InputFilters["inputs"].([]interface{})
 
 	// Filling InputFilters
@@ -90,7 +88,7 @@ func main() {
 		log.Fatalf("ERROR: no inputs found, did you provide a valid config file?")
 	}
 
-	//****************************************************************************************//
+	//**********************************File notifier for bundle reloading**********************//
 
 	go func() {
 
@@ -121,6 +119,8 @@ func main() {
 			}
 		}
 	}()
+
+	// ********************************************************************************************//
 
 	env := common.Env{DB: db}
 
