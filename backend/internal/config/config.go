@@ -7,9 +7,9 @@ import (
 	"github.com/anabiozz/yotunheim/backend/internal/models"
 	"github.com/anabiozz/yotunheim/backend/metrics"
 
-	"github.com/BurntSushi/toml"
-	//"github.com/anabiozz/yotunheim/backend/utils"
 	"flag"
+
+	"github.com/BurntSushi/toml"
 
 	"github.com/anabiozz/yotunheim/backend/utils"
 )
