@@ -46,8 +46,6 @@ func (CPUStats) Gather(c datastore.Datastore, acc backend.Accumulator) {
 
 	metrics, _ := datastore.QueryDB(c.(influx.Client), "SELECT 100-MEAN(usage_idle) AS usage_idle FROM cpu WHERE time >= now() - 5m GROUP BY time(30s) LIMIT 10")
 
-	fmt.Println(metrics)
-
 	if len(metrics) > 0 && len(metrics[0].Series) > 0 {
 		for _, values := range metrics[0].Series[0].Values {
 			influxMetricItem := datastore.InfluxMetricItem{}
