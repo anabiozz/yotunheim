@@ -43,7 +43,7 @@ func (Netstat) Gather(c datastore.Datastore, acc backend.Accumulator) {
 	influxMetrics := datastore.InfluxMetrics{}
 	influxMetrics.Metric = make(map[string][]interface{}, 0)
 
-	metrics, _ := datastore.QueryDB(c.(influx.Client), "SELECT tcp_listen as tcp_listen from netstat WHERE time >= now() - 5m GROUP BY time(30s) LIMIT 10")
+	metrics, _ := datastore.QueryDB(c.(influx.Client), "SELECT mean(tcp_listen) as tcp_listen from netstat WHERE time >= now() - 5m GROUP BY time(30s) LIMIT 10")
 
 	if len(metrics) > 0 && len(metrics[0].Series) > 0 {
 		for _, values := range metrics[0].Series[0].Values {
