@@ -37,12 +37,12 @@
         if (window["WebSocket"]) {
         // The reload endpoint is hosted on a statically defined port.
         try {
-            tryConnectToReload("ws://localhost:8080/reload");
+            tryConnectToReload("ws://localhost:8888/reload");
         }
         catch (ex) {
             // If an exception is thrown, that means that we couldn't connect to to WebSockets because of mixed content
             // security restrictions, so we try to connect using wss.
-            tryConnectToReload("wss://localhost:8080/reload");
+            tryConnectToReload("wss://localhost:8888/reload");
         }
         } else {
         console.log("Your browser does not support WebSockets, cannot connect to the Reload service.");
