@@ -22,16 +22,6 @@ import (
 	"github.com/anabiozz/yotunheim/backend/internal/config"
 )
 
-func handleError(key string, err error, message string) {
-	log.SetPrefix(fmt.Sprintf("[logID: %v]: ", key))
-	log.Printf("%#v", err)
-	log.Printf("[%v] %v", key, message)
-}
-
-var (
-	bugMsg = "There was an unexpected issue; please report this as a bug."
-)
-
 var (
 	hub *Hub
 )
@@ -42,9 +32,10 @@ func main() {
 	go hub.Run()
 
 	//****************************************************************************************//
+
 	// set up logs parameters
-	log.SetOutput(os.Stdout)
-	log.SetFlags(log.Ltime | log.LUTC)
+	// log.SetOutput(os.Stdout)
+	// log.SetFlags(log.Ltime | log.LUTC)
 
 	//****************************************************************************************//
 
@@ -52,9 +43,9 @@ func main() {
 	uuid, err := utility.GenerateUUID()
 	if err != nil {
 		if _, ok := err.(utility.UUIDError); ok {
-			bugMsg = err.Error()
+			utility.BugMsg = err.Error()
 		}
-		handleError(uuid, err, bugMsg)
+		utility.HandleError(uuid, err, utility.BugMsg)
 	}
 
 	//****************************************************************************************//
@@ -63,10 +54,10 @@ func main() {
 	db, err := datastore.NewDatastore(datastore.INFLUXDB, "http://influxdb:8086")
 	if err != nil {
 		if _, ok := err.(datastore.Err); ok {
-			bugMsg = err.Error()
+			utility.BugMsg = err.Error()
 		}
 
-		handleError(uuid, err, bugMsg)
+		utility.HandleError(uuid, err, utility.BugMsg)
 	}
 
 	//****************************************************************************************//
@@ -143,7 +134,7 @@ func main() {
 		http.FileServer(http.Dir("../go/src/github.com/anabiozz/yotunheim/backend/public"))))
 
 	srv := &http.Server{
-		Addr: "yotunheim:8080",
+		Addr: "yotunheim:8888",
 		// Good practice to set timeouts to avoid Slowloris attacks.
 		WriteTimeout: time.Second * 15,
 		ReadTimeout:  time.Second * 15,

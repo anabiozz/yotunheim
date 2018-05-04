@@ -15,10 +15,8 @@ import { Row, Col } from 'react-materialize'
             return <Board chartName={key} value={value}/>
         })
     }
-
     let charts = []
     let tabels = []
-
     if(data.Metrics !== undefined) {
         for (let index = 0; index < data.Metrics.length; index++) {
             switch (data.Metrics[index].ChartType) {
@@ -36,10 +34,10 @@ import { Row, Col } from 'react-materialize'
         return (
             <div>
                 <Row className='chart_row'>
-                    <Col l={12} m={12} className='grid-example'>{charts}</Col>
+                    {/* <Col s={12} l={12} m={12} className='grid-example'>{charts}</Col> */}
                 </Row>
                 <Row className='table_row'>
-                    <Col l={12} m={12} className='grid-example'>{tabels}</Col>
+                    <Col s={6} l={6} m={6} className='grid-example'>{tabels}</Col>
                 </Row>
             </div>
         )

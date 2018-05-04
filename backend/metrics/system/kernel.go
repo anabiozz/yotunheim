@@ -10,6 +10,20 @@ import (
 	influx "github.com/influxdata/influxdb/client/v2"
 )
 
+/*
+
+name: kernel
+
+fieldKey         fieldType
+--------         ---------
+boot_time        integer
+context_switches integer
+entropy_avail    integer
+interrupts       integer
+processes_forked integer
+
+*/
+
 // KernelStats ...
 type KernelStats struct{}
 
@@ -21,7 +35,7 @@ func (KernelStats) Gather(c datastore.Datastore, acc backend.Accumulator) {
 	influxMetrics := datastore.InfluxMetrics{}
 	influxMetrics.Metric = make(map[string][]interface{}, 0)
 
-	metrics, _ := datastore.QueryDB(c.(influx.Client), "SELECT * from kernel WHERE time >= now() - 20m GROUP BY time(2m) LIMIT 20")
+	metrics, _ := datastore.QueryDB(c.(influx.Client), "SELECT mean(context_switches) as context_switches from kernel WHERE time >= now() - 5m GROUP BY time(30s) LIMIT 10")
 
 	if len(metrics) > 0 && len(metrics[0].Series) > 0 {
 		for _, values := range metrics[0].Series[0].Values {

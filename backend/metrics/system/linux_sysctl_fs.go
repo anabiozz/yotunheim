@@ -10,6 +10,26 @@ import (
 	influx "github.com/influxdata/influxdb/client/v2"
 )
 
+/*
+
+name: linux_sysctl_fs
+
+fieldKey           fieldType
+--------           ---------
+aio-max-nr         integer
+aio-nr             integer
+dentry-age-limit   integer
+dentry-nr          integer
+dentry-unused-nr   integer
+dentry-want-pages  integer
+file-max           integer
+file-nr            integer
+inode-free-nr      integer
+inode-nr           integer
+inode-preshrink-nr integer
+
+*/
+
 // LinuxSysctlFsStats ...
 type LinuxSysctlFsStats struct{}
 
@@ -21,7 +41,7 @@ func (LinuxSysctlFsStats) Gather(c datastore.Datastore, acc backend.Accumulator)
 	influxMetrics := datastore.InfluxMetrics{}
 	influxMetrics.Metric = make(map[string][]interface{}, 0)
 
-	metrics, _ := datastore.QueryDB(c.(influx.Client), "SELECT * from linux_sysctl_fs WHERE time >= now() - 20m GROUP BY time(2m) LIMIT 20")
+	metrics, _ := datastore.QueryDB(c.(influx.Client), "SELECT mean(file-max) as file-max from linux_sysctl_fs WHERE time >= now() - 5m GROUP BY time(30s) LIMIT 10")
 
 	if len(metrics) > 0 && len(metrics[0].Series) > 0 {
 		for _, values := range metrics[0].Series[0].Values {
