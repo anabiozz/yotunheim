@@ -1,5 +1,5 @@
 const config = {
-    baseDomain: 'http://localhost:8080',
+    baseDomain: 'http://localhost:8888',
     timeInterval: 60000,
     // initialState: "",
     statusesConfig: [

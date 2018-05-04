@@ -37,8 +37,5 @@
   },
   "scripts": {
     "build": "webpack --progress --colors --watch"
-  },
-  "staff": {
-    "webpack --progress --colors --watch": ""
   }
 }

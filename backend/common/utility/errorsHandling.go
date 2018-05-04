@@ -2,22 +2,30 @@ package utility
 
 import (
 	"fmt"
+	"log"
 	"runtime/debug"
 )
 
-type MyError struct {
+var (
+	// BugMsg ...
+	BugMsg = "There was an unexpected issue; please report this as a bug."
+)
+
+// CustomError ...
+type CustomError struct {
 	Inner      error
 	Message    string
 	StackTrace string
 	Misc       map[string]interface{}
 }
 
+// WrapError ...
 func WrapError(
 	err error,
 	messagef string,
 	msgArgs ...interface{},
-) MyError {
-	return MyError{
+) CustomError {
+	return CustomError{
 		Inner:      err,
 		Message:    fmt.Sprintf(messagef, msgArgs...),
 		StackTrace: string(debug.Stack()),
@@ -25,6 +33,13 @@ func WrapError(
 	}
 }
 
-func (err MyError) Error() string {
+func (err CustomError) Error() string {
 	return err.Message
+}
+
+// HandleError ...
+func HandleError(key string, err error, message string) {
+	log.SetPrefix(fmt.Sprintf("[logID: %v]: ", key))
+	log.Printf("%#v", err)
+	log.Printf("[%v] %v", key, message)
 }

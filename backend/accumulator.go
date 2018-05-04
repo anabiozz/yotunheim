@@ -1,20 +1,23 @@
 package backend
 
-import (
-	influx "github.com/influxdata/influxdb/client/v2"
-)
+import "github.com/anabiozz/yotunheim/backend/common/datastore"
 
 const (
+	// Counter ...
 	Counter = "counter"
+	// Gauge ...
 	Gauge
+	// Untyped ...
 	Untyped
+	// Summary ...
 	Summary
+	// Histogram ...
 	Histogram = "histogram"
-	Table     = "table"
+	// Table ...
+	Table = "table"
 )
 
+// Accumulator ...
 type Accumulator interface {
-	AddLine(name string, metrics []influx.Result, err error)
-	AddBar(name string, metrics []influx.Result, err error)
-	AddTable(name string, metrics []influx.Result, err error)
+	AddMetric(datastore.InfluxMetrics)
 }
