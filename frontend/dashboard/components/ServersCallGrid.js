@@ -15,13 +15,15 @@ import { Row, Col } from 'react-materialize'
             return <Board chartName={key} value={value}/>
         })
     }
+
     let charts = []
     let tabels = []
+
     if(data.Metrics !== undefined) {
         for (let index = 0; index < data.Metrics.length; index++) {
             switch (data.Metrics[index].ChartType) {
                 case 'counter':
-                    charts.push(renderLine(data.Metrics[index].Metric))
+                    charts.push(<Col s={4} l={4} m={4} className='grid-example'>{renderLine(data.Metrics[index].Metric)}</Col>)
                     break
                 case  'histogram':
                     // charts.push(this._renderBar(chartData.Metrics[index].Metric))
@@ -32,9 +34,9 @@ import { Row, Col } from 'react-materialize'
             }
         }
         return (
-            <div>
+            <div className='charts'>
                 <Row className='chart_row'>
-                    {/* <Col s={12} l={12} m={12} className='grid-example'>{charts}</Col> */}
+                    {charts}
                 </Row>
                 <Row className='table_row'>
                     <Col s={6} l={6} m={6} className='grid-example'>{tabels}</Col>
@@ -42,7 +44,7 @@ import { Row, Col } from 'react-materialize'
             </div>
         )
     }
-    return <div>no data</div>
+    return <div className='no_data'>no data</div>
 }
 
 export default ChartCell

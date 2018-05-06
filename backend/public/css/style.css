@@ -1,6 +1,6 @@
 * {margin: 0; padding: 0;}
 body {
-    font-size: 13px;
+    font-size: 18px;
 }
 
 .clear {
@@ -10,19 +10,26 @@ body {
 hr {
     border-color: #000;
 }
+
+/* Navbar */
+
+.navbar-header {
+    box-shadow: 10px 10px #fff;
+}
+
 .navbar-inverse {
-    background-image: none;
-    background-color: #303e4a;
+    background-color:#1c242b;
 }
 .navbar-brand {
     height: auto;
     padding: 5px 15px;
 }
 .navbar-brand img {
-   loat: left;
+   float: left;
 }
 .navbar-brand span {
-    line-height: 41px;
+    font-size: 23px;
+    font-family: 'Montserrat', sans-serif;
     color: #fff;
 }
 .glyphicon {
@@ -32,14 +39,16 @@ hr {
     padding-right: 20px;
 }
 
-  /*
-   * Main content
-   */
+/* end Navbar */
 
-.container {
-    padding: 0;
-    height: 100%;
-    width: 100%;
+/*  Main content */
+
+.row {
+    background-color: #26313b;
+}
+
+.charts {
+    padding-top: 50px;
 }
 
 .chart_row .col {
@@ -48,41 +57,92 @@ hr {
     justify-content: space-around;
 }
 
-.table_row {
-    margin-top: 150px;
-    margin-left: 120px;
-    margin-right: 120px;
+.chart {
+    text-align: center;
+    margin-bottom: 50px;
+    background-color: #303e4a;
+    box-shadow: 10px 10px 5px #1c242b;
+    padding: 20px;
 }
 
-.table_name {
-    font-size: 22px;
-    margin-bottom: 15px;
-    font-weight: bold;
+.chart_head_text {
+   font-size: 21px;
+   font-family: 'Montserrat', sans-serif;
+   color: #eaebec;
 }
 
-.chart{
-    width: 30%;
-    height:100%;
+.recharts-wrapper {
+    width:100% !important;
+    height:100% !important;
     margin: auto;
 }
 
-.table {
-    margin-bottom: 50px;
+.recharts-surface {
+    width:100% !important;
+    height:100% !important;
+    margin: auto;
 }
+
+.recharts-layer {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 13px;
+} 
+
+.recharts-cartesian-grid {
+
+}
+
+.xAxis {
+    
+}
+
+.no_data {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 50px;
+    text-align: center;
+    height: 100%;
+    width: auto;
+}
+
+/*.recharts-cartesian-axis-tick {
+    font-family: 'Montserrat', sans-serif;
+    color: #fff !important;
+}
+
+.recharts-text {
+    font-family: 'Montserrat', sans-serif;
+    color: #fff !important;
+} 
+
+.recharts-cartesian-axis-tick-value {
+    font-family: 'Montserrat', sans-serif;
+    color: #fff !important;
+} */
+
+/* .recharts-text {
+    font-family: 'Montserrat', sans-serif;
+    color: #fff;
+} */
+
+/* .table_row {
+    margin-top: 150px;
+    margin-left: 120px;
+    margin-right: 120px;
+} */
+
+/* .table_name {
+    font-size: 22px;
+    margin-bottom: 15px;
+    font-weight: bold;
+} */
+
+
+/* .table {
+    margin-bottom: 50px;
+} */
 
 /* table.responsive-table thead {
     display: block;
     float: left;
 } */
 
-.recharts-wrapper {
-    width:100% !important;
-    height:100%;
-    margin: auto;
-}
-
-.recharts-surface {
-    width:inherit !important;
-    height:100%;
-    margin: auto;
-}

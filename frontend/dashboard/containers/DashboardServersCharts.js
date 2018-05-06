@@ -2,6 +2,7 @@ import React from 'react'
 import connect from 'react-redux/lib/connect/connect'
 import { getJson, reset, dismissError } from '../actions/DashboardActions'
 import bindActionCreators from 'redux/lib/bindActionCreators'
+import config from '../../config'
 
 //Components
 import ChartCell from '../components/ServersCallGrid'
@@ -22,9 +23,9 @@ class DashboardServersCharts extends React.Component {
     clearTimeout(this.timeout)
   }
 
-  handleAlertDismiss() {
-    this.props.dismissError()
-  }
+  // handleAlertDismiss() {
+  //   this.props.dismissError()
+  // }
 
   componentDidMount() {
     this.props.getJson()
@@ -34,20 +35,20 @@ class DashboardServersCharts extends React.Component {
     console.log('RENDER <DashboardServersCharts>')
 
     clearTimeout(this.timeout)
-    this.timeout = setTimeout(this.updateData, 4000)
+    this.timeout = setTimeout(this.updateData, config.timeInterval)
 
-    const { json } = this.props
+    const { stats } = this.props
 
     return (
-      <div className='row main-row'>
-        <ChartCell data={json}/>
+      <div className='row'> 
+        <ChartCell data={stats}/>
       </div>
     )
   }
 }
 function mapStateToProps(state) {
   return {
-    json: state.default.charts.json,
+    stats: state.default.charts.stats,
   }
 }
 function mapDispatchToProps(dispatch) {

@@ -8,13 +8,28 @@ const Chart = ({chartName, value, i}) => {
     if (chartName != undefined) {
         return (
             <div className='chart' key={i}>
-                <LineChart width={600} height={300} data={value} margin={{top: 10, right: 30, left: 30, bottom: 10}}>
-                    <XAxis dataKey='xline'/>
-                    <YAxis domain={[0, 100]} />
+
+                <span className='chart_head_text'>{chartName}</span>
+                
+                <LineChart width={550} height={300} data={value}>
+
+                    <XAxis 
+                        dataKey='xline' 
+                        tick={{stroke: '#ddd'}} 
+                    />
+
+                    <YAxis 
+                        domain={[0, 100]} 
+                        allowDecimals={false} 
+                        tick={{stroke: '#ddd'}}
+                        padding={{ bottom: 50 }}
+                        width={110}
+                    />
+
                     <CartesianGrid strokeDasharray='3 3'/>
                     <Tooltip/>
                     <Legend />
-                    <Line type='monotone' dataKey='payload' name={chartName + ' usage'} stroke='#8884d8' activeDot={{r: 8}}/>
+                    <Line type='monotone' dataKey='payload' legendType='none' stroke='#cccc00' />
                 </LineChart>
             </div>
         )

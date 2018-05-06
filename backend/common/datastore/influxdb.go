@@ -11,22 +11,21 @@ type InfluxResult struct {
 	Metrics []InfluxMetrics
 }
 
+// InfluxMetricItem ...
+type InfluxMetricItem struct {
+	Payload int64       `json:"payload"`
+	Xline   interface{} `json:"xline"`
+}
+
 // InfluxMetrics ...
 type InfluxMetrics struct {
-	Metric    map[string][]interface{}
+	Metric    map[string][]InfluxMetricItem
 	ChartType string
 }
 
 // InfluxErr ...
 type InfluxErr struct {
 	error
-}
-
-// InfluxMetricItem ...
-type InfluxMetricItem struct {
-	Payload      interface{}   `json:"payload"`
-	PayloadArray []interface{} `json:"payload_arr"`
-	Xline        interface{}   `json:"xline"`
 }
 
 // Influx ...
@@ -46,7 +45,7 @@ func NewInfluxDatastore(dbConnectionString string) (client influx.Client, err er
 
 }
 
-// queryDB convenience function to query the database
+// QueryDB convenience function to query the database
 func QueryDB(clnt influx.Client, cmd string) (res []influx.Result, err error) {
 	q := influx.Query{
 		Command:  cmd,

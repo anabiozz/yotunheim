@@ -1,6 +1,7 @@
 package system
 
 import (
+	"encoding/json"
 	"fmt"
 	"time"
 
@@ -33,17 +34,27 @@ func (KernelStats) Gather(c datastore.Datastore, acc backend.Accumulator) {
 	name := "kernel"
 
 	influxMetrics := datastore.InfluxMetrics{}
-	influxMetrics.Metric = make(map[string][]interface{}, 0)
+	influxMetrics.Metric = make(map[string][]datastore.InfluxMetricItem, 0)
 
-	metrics, _ := datastore.QueryDB(c.(influx.Client), "SELECT mean(context_switches) as context_switches from kernel WHERE time >= now() - 5m GROUP BY time(30s) LIMIT 10")
+	metrics, _ := datastore.QueryDB(c.(influx.Client), "SELECT mean(context_switches) as context_switches from kernel WHERE time >= now() - 5m GROUP BY time(1m) LIMIT 5")
 
 	if len(metrics) > 0 && len(metrics[0].Series) > 0 {
+
 		for _, values := range metrics[0].Series[0].Values {
-			influxMetricItem := datastore.InfluxMetricItem{}
-			t, _ := time.Parse(time.RFC3339, values[0].(string))
-			influxMetricItem.Xline = fmt.Sprintf("%02d:%02d:%02d", t.Hour(), t.Minute(), t.Second())
-			influxMetricItem.Payload = values[1]
-			influxMetrics.Metric[name] = append(influxMetrics.Metric[name], influxMetricItem)
+
+			if values[1] != nil {
+
+				influxMetricItem := datastore.InfluxMetricItem{}
+				t, _ := time.Parse(time.RFC3339, values[0].(string))
+				influxMetricItem.Xline = fmt.Sprintf("%02d:%02d:%02d", t.Hour(), t.Minute(), t.Second())
+				payload := values[1].(json.Number).Float64
+				p, err := payload()
+				if err != nil {
+					fmt.Println(err)
+				}
+				influxMetricItem.Payload = int64(p)
+				influxMetrics.Metric[name] = append(influxMetrics.Metric[name], influxMetricItem)
+			}
 		}
 		influxMetrics.ChartType = backend.Counter
 	}

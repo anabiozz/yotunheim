@@ -9,24 +9,23 @@ import {
   const initialState = {
     stats:[],
     errors: null,
-    fetching: false,
-    json: []
+    fetching: false
   }
   
-  export default function charts(state = initialState, action) {
-    switch (action.type) {
-      case GET_SERVERS_REQUEST:
-        return { ...state, fetching: true }
-      case GET_SERVERS_SUCCESS:
-        return { ...state, json: action.response, fetching: false, errors: null }
-      case GET_SERVERS_ERROR:
-        return { ...state, errors: action.error, fetching: false }
-      case GET_SERVERS_RESET:
-        return { ...state, json: [] }
-      case DISMISS_SERVERS_ERROR:
-        return { ...state, errors: null }
-      default:
-        return state
-    }
+export default function charts(state = initialState, action) {
+  switch (action.type) {
+    case GET_SERVERS_REQUEST:
+      return { ...state, fetching: true }
+    case GET_SERVERS_SUCCESS:
+      return { ...state, stats: action.response, fetching: false, errors: null }
+    case GET_SERVERS_ERROR:
+      return { ...state, errors: action.error, fetching: false }
+    case GET_SERVERS_RESET:
+      return { ...state, stats: [] }
+    case DISMISS_SERVERS_ERROR:
+      return { ...state, errors: null }
+    default:
+      return state
   }
+}
   

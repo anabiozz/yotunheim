@@ -34,8 +34,8 @@ func main() {
 	//****************************************************************************************//
 
 	// set up logs parameters
-	// log.SetOutput(os.Stdout)
-	// log.SetFlags(log.Ltime | log.LUTC)
+	log.SetOutput(os.Stdout)
+	log.SetFlags(log.Ltime | log.LUTC)
 
 	//****************************************************************************************//
 
@@ -124,6 +124,7 @@ func main() {
 
 	router.HandleFunc("/api/get-json", func(w http.ResponseWriter, r *http.Request) {
 		endpoints.GetJSONnEndpoint(w, r, &env, newConfig)
+		// send config with charts initial state in request body?
 	}).Methods("GET")
 
 	router.HandleFunc("/reload", func(w http.ResponseWriter, r *http.Request) {

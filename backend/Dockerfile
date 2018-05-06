@@ -7,7 +7,7 @@ RUN go get -u github.com/kardianos/govendor
 RUN cd /go/src/github.com/anabiozz/yotunheim/backend && govendor sync
 RUN go install github.com/anabiozz/yotunheim/backend/main
 
-EXPOSE 8080
+EXPOSE 8888
 
 CMD [ "/go/bin/main", "/go/bin/default-config.toml" ]
 
