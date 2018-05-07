@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react'
 import connect from 'react-redux/lib/connect/connect'
 //Components
 import Navbar from '../components/Navigation'
+import Switcher from '../components/Switcher'
 
 class Layout extends React.Component {
 	constructor(...props) {
@@ -14,8 +15,12 @@ class Layout extends React.Component {
 		console.log(mode)
 
 		return <div className='container-fluid'>
-            {<Navbar name='alex' mode={mode} />}
-            {this.props.children}
+						{<Navbar name='alex' mode={mode} />}
+						{<div className='main'>
+							{<Switcher name='alex' />}
+							{this.props.children}
+						</div>}
+					
         </div>
 	}
 }

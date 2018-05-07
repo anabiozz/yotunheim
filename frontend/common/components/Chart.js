@@ -29,7 +29,14 @@ const Chart = ({chartName, value, i}) => {
                     <CartesianGrid strokeDasharray='3 3'/>
                     <Tooltip/>
                     <Legend />
-                    <Line type='monotone' dataKey='payload' legendType='none' stroke='#cccc00' />
+                    <Line 
+                        type='monotoneY' 
+                        dataKey='payload' 
+                        legendType='none' 
+                        stroke='#FFC300' 
+                        dot={{ stroke: '#FFC300', strokeWidth: 2 }} 
+                        activeDot={{ stroke: '#FFC300', strokeWidth: 2, r: 5 }} 
+                    />
                 </LineChart>
             </div>
         )

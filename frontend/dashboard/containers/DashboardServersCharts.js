@@ -3,6 +3,7 @@ import connect from 'react-redux/lib/connect/connect'
 import { getJson, reset, dismissError } from '../actions/DashboardActions'
 import bindActionCreators from 'redux/lib/bindActionCreators'
 import config from '../../config'
+import { Row } from 'react-materialize'
 
 //Components
 import ChartCell from '../components/ServersCallGrid'
@@ -40,9 +41,10 @@ class DashboardServersCharts extends React.Component {
     const { stats } = this.props
 
     return (
-      <div className='row'> 
-        <ChartCell data={stats}/>
-      </div>
+      <Row className='main_monitoring'>
+          <ChartCell data={stats}/>
+      </Row>
+      
     )
   }
 }

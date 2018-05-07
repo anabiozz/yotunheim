@@ -1,6 +1,6 @@
 import React from 'react'
 import { Chart, Board } from '../../common/components'
-import { Row, Col } from 'react-materialize'
+import { Col } from 'react-materialize'
 
  const ChartCell = ({data}) => {
 
@@ -35,12 +35,7 @@ import { Row, Col } from 'react-materialize'
         }
         return (
             <div className='charts'>
-                <Row className='chart_row'>
-                    {charts}
-                </Row>
-                <Row className='table_row'>
-                    <Col s={6} l={6} m={6} className='grid-example'>{tabels}</Col>
-                </Row>
+                {charts}
             </div>
         )
     }

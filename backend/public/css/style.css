@@ -1,4 +1,9 @@
 * {margin: 0; padding: 0;}
+
+html, body {
+    background-color:#939393;
+}
+
 body {
     font-size: 18px;
 }
@@ -14,11 +19,11 @@ hr {
 /* Navbar */
 
 .navbar-header {
-    box-shadow: 10px 10px #fff;
+    /* box-shadow: 5px 5px 10px  #1c242b; */
 }
 
 .navbar-inverse {
-    background-color:#1c242b;
+    background-color:#363636;
 }
 .navbar-brand {
     height: auto;
@@ -43,25 +48,47 @@ hr {
 
 /*  Main content */
 
+#root {
+    height:100%;
+}
+
+.container-fluid {
+    height:100%;
+}
+
+.main {
+    height:100%;
+    display: flex;
+}
+
+
+.switcher {
+    background-color: #779490;
+    width: 10%;
+    height: auto;
+}
+
+
 .row {
-    background-color: #26313b;
+    margin: 0;
 }
 
-.charts {
-    padding-top: 50px;
+.main_monitoring {
+    height:100%;
+    padding: 20px;
 }
-
-.chart_row .col {
+    
+.charts > .col  {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-between;
 }
 
 .chart {
     text-align: center;
     margin-bottom: 50px;
-    background-color: #303e4a;
-    box-shadow: 10px 10px 5px #1c242b;
+    background-color:	#444444;
+    box-shadow: 2px 2px 3px #1c242b;
     padding: 20px;
 }
 
