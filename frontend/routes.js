@@ -4,12 +4,14 @@ import Route from 'react-router/lib/Route'
 //Layouts
 import Layout from './common/containers/Layout'
 import DashboardServersCharts from './dashboard/containers/DashboardServersCharts'
+import AppsPage from './dashboard/containers/AppsPage'
 
-export default (user) => {
-    // let core_url = process.env.CORE_URL ? process.env.CORE_URL : '/';
+export default () => {
     return (
         <Route path='/' component={Layout}>
-            <IndexRoute component={DashboardServersCharts} user={user}/>
+            <IndexRoute component={DashboardServersCharts} />
+            <Route path='main' component={DashboardServersCharts} />
+            <Route path='apps' component={AppsPage} />
         </Route>
     )
 }

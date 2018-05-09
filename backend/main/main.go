@@ -66,12 +66,10 @@ func main() {
 	newConfig := config.NewConfig()
 	// Filling new config getting data from default config
 	err = newConfig.LoadConfig()
-	// fmt.Println(newConfig.InputFilters)
 	inputs := newConfig.InputFilters["inputs"].([]interface{})
 
 	// Filling InputFilters
 	for _, value := range inputs {
-		log.Println(value)
 		newConfig.AddInput(value.(string))
 	}
 
@@ -118,10 +116,6 @@ func main() {
 	// Mux
 	router := mux.NewRouter()
 
-	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		handlers.DashboardHandler(w, r)
-	}).Methods("GET")
-
 	router.HandleFunc("/api/get-json", func(w http.ResponseWriter, r *http.Request) {
 		endpoints.GetJSONnEndpoint(w, r, &env, newConfig)
 		// send config with charts initial state in request body?
@@ -130,6 +124,11 @@ func main() {
 	router.HandleFunc("/reload", func(w http.ResponseWriter, r *http.Request) {
 		ServeWs(hub, w, r)
 	})
+
+	router.HandleFunc("/{category}", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Println("QWERTY2")
+		handlers.DashboardHandler(w, r)
+	}).Methods("GET")
 
 	router.PathPrefix("/").Handler(http.StripPrefix("/",
 		http.FileServer(http.Dir("../go/src/github.com/anabiozz/yotunheim/backend/public"))))

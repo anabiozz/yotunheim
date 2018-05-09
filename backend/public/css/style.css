@@ -1,4 +1,7 @@
-* {margin: 0; padding: 0;}
+* {
+    margin: 0; 
+    padding: 0;
+}
 
 html, body {
     background-color:#939393;
@@ -12,14 +15,10 @@ body {
     width: 100%;
     clear: both;
 }
-hr {
-    border-color: #000;
-}
 
 /* Navbar */
 
 .navbar-header {
-    /* box-shadow: 5px 5px 10px  #1c242b; */
 }
 
 .navbar-inverse {
@@ -37,9 +36,7 @@ hr {
     font-family: 'Montserrat', sans-serif;
     color: #fff;
 }
-.glyphicon {
-    cursor: pointer;
-}
+
 .navbar-right {
     padding-right: 20px;
 }
@@ -50,6 +47,7 @@ hr {
 
 #root {
     height:100%;
+    display:block;
 }
 
 .container-fluid {
@@ -61,13 +59,31 @@ hr {
     display: flex;
 }
 
-
 .switcher {
+    padding-top: 20px;
     background-color: #779490;
-    width: 10%;
-    height: auto;
 }
 
+.switcher ul {
+	text-align: center; 
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+}
+
+.switcher ul li {
+    width: 100%;
+}
+
+.switcher ul li a {
+    display: block;
+    padding: 8px 15px;
+    text-decoration: none;
+    font-weight: bold;
+    color: #363636;
+    font-family: 'Montserrat', sans-serif;
+    border-right: 3px solid #ccc;
+}
 
 .row {
     margin: 0;
@@ -130,46 +146,4 @@ hr {
     height: 100%;
     width: auto;
 }
-
-/*.recharts-cartesian-axis-tick {
-    font-family: 'Montserrat', sans-serif;
-    color: #fff !important;
-}
-
-.recharts-text {
-    font-family: 'Montserrat', sans-serif;
-    color: #fff !important;
-} 
-
-.recharts-cartesian-axis-tick-value {
-    font-family: 'Montserrat', sans-serif;
-    color: #fff !important;
-} */
-
-/* .recharts-text {
-    font-family: 'Montserrat', sans-serif;
-    color: #fff;
-} */
-
-/* .table_row {
-    margin-top: 150px;
-    margin-left: 120px;
-    margin-right: 120px;
-} */
-
-/* .table_name {
-    font-size: 22px;
-    margin-bottom: 15px;
-    font-weight: bold;
-} */
-
-
-/* .table {
-    margin-bottom: 50px;
-} */
-
-/* table.responsive-table thead {
-    display: block;
-    float: left;
-} */
 

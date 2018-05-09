@@ -15,9 +15,9 @@ class Layout extends React.Component {
 		console.log(mode)
 
 		return <div className='container-fluid'>
-						{<Navbar name='alex' mode={mode} />}
+						{<Navbar mode={mode} />}
 						{<div className='main'>
-							{<Switcher name='alex' />}
+							{<Switcher />}
 							{this.props.children}
 						</div>}
 					

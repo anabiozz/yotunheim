@@ -1,12 +1,19 @@
-const path = require('path')
+import path from 'path'
+
+// const GLOBALS = {
+//     'process.env.NODE_ENV': JSON.stringify('production')
+// }
+
 
 module.exports = {
+    debug: false,
     mode: 'development',
     entry: ['./main.js'],
     output: {
         path: path.resolve(__dirname, '../backend/public'),
         filename: 'bundle.js'
     },
+    target: 'web',
     module: {
         rules: [
             {
