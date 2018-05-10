@@ -5,10 +5,14 @@
 
 html, body {
     background-color:#939393;
+    height: 100%;
+    margin: 0;
 }
 
 body {
     font-size: 18px;
+    box-sizing: border-box;
+    position: relative;
 }
 
 .clear {
@@ -17,9 +21,6 @@ body {
 }
 
 /* Navbar */
-
-.navbar-header {
-}
 
 .navbar-inverse {
     background-color:#363636;
@@ -45,39 +46,46 @@ body {
 
 /*  Main content */
 
-#root {
-    height:100%;
-    display:block;
-}
-
-.container-fluid {
-    height:100%;
-}
-
 .main {
-    height:100%;
+    min-width: 100%;
+    width: 100% !important;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
     display: flex;
+    position:relative;
+    height:100%;
+    min-height: 100%;
 }
+
+.container .row {
+    margin: 0;
+}
+
+.main_monitoring {
+    width: 100%;
+    min-width: 500px;
+    min-height: 100%;
+}
+
+/* Switcher */
 
 .switcher {
-    padding-top: 20px;
-    background-color: #779490;
+    background-color: #cc9c00;
+    min-height: 100%;
+    max-width: 80px !important;
+    max-width: 80px !important;
 }
 
 .switcher ul {
-	text-align: center; 
-    display: flex;
-    width: 100%;
-    flex-direction: column;
-}
-
-.switcher ul li {
+    text-align: center; 
     width: 100%;
 }
 
 .switcher ul li a {
     display: block;
-    padding: 8px 15px;
+    padding: 15px 15px;
     text-decoration: none;
     font-weight: bold;
     color: #363636;
@@ -85,27 +93,26 @@ body {
     border-right: 3px solid #ccc;
 }
 
-.row {
-    margin: 0;
-}
-
-.main_monitoring {
-    height:100%;
-    padding: 20px;
-}
+/* End Switcher */
     
-.charts > .col  {
+.charts {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    flex-wrap: wrap;
+    justify-content: center;
+    height: 100%;
+    min-height: 100%;
 }
 
 .chart {
+    margin: 10px;
+    flex-basis: calc(33.3% - 20px);
+    height: 400px;
     text-align: center;
-    margin-bottom: 50px;
     background-color:	#444444;
-    box-shadow: 2px 2px 3px #1c242b;
-    padding: 20px;
+    /* box-shadow: 2px 2px 3px #1c242b; */
+    padding: 10px;
+   
 }
 
 .chart_head_text {
@@ -121,8 +128,8 @@ body {
 }
 
 .recharts-surface {
-    width:100% !important;
-    height:100% !important;
+    /* width:100% !important; */
+    height:100% !important; 
     margin: auto;
 }
 
@@ -145,5 +152,11 @@ body {
     text-align: center;
     height: 100%;
     width: auto;
+}
+
+/* Footer */
+footer.page-footer {
+    background-color: #363636;
+    padding: 0;
 }
 

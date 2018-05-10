@@ -88,7 +88,7 @@ func main() {
 		defer watcher.Close()
 
 		// out of the box fsnotify can watch a single file, or a single directory
-		if err := watcher.Add("/go/src/github.com/anabiozz/yotunheim/backend/public/bundle.js"); err != nil {
+		if err := watcher.Add("/go/src/github.com/anabiozz/yotunheim/backend/public/bundle/bundle.js"); err != nil {
 			fmt.Println("ERROR", err)
 		}
 
@@ -126,7 +126,6 @@ func main() {
 	})
 
 	router.HandleFunc("/{category}", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Println("QWERTY2")
 		handlers.DashboardHandler(w, r)
 	}).Methods("GET")
 

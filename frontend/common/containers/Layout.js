@@ -3,6 +3,7 @@ import connect from 'react-redux/lib/connect/connect'
 //Components
 import Navbar from '../components/Navigation'
 import Switcher from '../components/Switcher'
+import Footer from '../components/Footer'
 
 class Layout extends React.Component {
 	constructor(...props) {
@@ -10,18 +11,18 @@ class Layout extends React.Component {
 	}
 	
 	render() {
-		const { mode } = this.props
 		console.log('RENDER <Layout>')
-		console.log(mode)
 
-		return <div className='container-fluid'>
-						{<Navbar mode={mode} />}
-						{<div className='main'>
-							{<Switcher />}
-							{this.props.children}
-						</div>}
-					
+		return (
+			<div>
+				<Navbar/>
+				<div className='main'>
+						<Switcher/>
+						{this.props.children}
         </div>
+				<Footer/>
+			</div>
+		) 
 	}
 }
 
