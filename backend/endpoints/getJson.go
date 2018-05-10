@@ -2,7 +2,6 @@ package endpoints
 
 import (
 	"encoding/json"
-	"fmt"
 	"log"
 	"net/http"
 
@@ -18,8 +17,6 @@ func GetJSONnEndpoint(
 	r *http.Request,
 	e *common.Env,
 	newConfig *config.Config) {
-
-	fmt.Println("GetJSONnEndpoint")
 
 	InfluxResult := datastore.InfluxResult{}
 

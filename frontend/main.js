@@ -9,7 +9,6 @@ import thunk from 'redux-thunk'
 import reduxImmutableStateInvariant from 'redux-immutable-state-invariant'
 import routes from './routes'
 import * as reducers from './reducers'
-// import config from './config'
 import { syncHistoryWithStore, routerReducer } from 'react-router-redux'
 
 reducers.routing = routerReducer
