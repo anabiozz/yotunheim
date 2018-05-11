@@ -1,12 +1,7 @@
-* {
-    margin: 0; 
-    padding: 0;
-}
-
 html, body {
     background-color:#939393;
     height: 100%;
-    margin: 0;
+    position: relative;
 }
 
 body {
@@ -22,8 +17,16 @@ body {
 
 /* Navbar */
 
-.navbar-inverse {
+.navbar {
+    box-shadow: 0 5px 5px 2px rgba(0,0,0,0.14);
+    height: 66px;
+    min-height: 66px;
+    vertical-align: middle;
     background-color:#363636;
+}
+
+.navbar-header {
+ 
 }
 .navbar-brand {
     height: auto;
@@ -38,25 +41,22 @@ body {
     color: #fff;
 }
 
-.navbar-right {
-    padding-right: 20px;
-}
-
 /* end Navbar */
 
 /*  Main content */
 
-.main {
+.react_root {
+    min-height: 100%;
+}
+
+.wrapper {
     min-width: 100%;
-    width: 100% !important;
     display: -webkit-box;
     display: -moz-box;
     display: -ms-flexbox;
     display: -webkit-flex;
     display: flex;
-    position:relative;
-    height:100%;
-    min-height: 100%;
+    
 }
 
 .container .row {
@@ -64,18 +64,17 @@ body {
 }
 
 .main_monitoring {
+    min-height: 100%;
     width: 100%;
     min-width: 500px;
-    min-height: 100%;
+    min-height: calc(100vh - 66px - 178px - 20px);
 }
 
 /* Switcher */
-
 .switcher {
     background-color: #cc9c00;
     min-height: 100%;
-    max-width: 80px !important;
-    max-width: 80px !important;
+    box-shadow: 5px 0 5px 2px rgba(0,0,0,0.14);
 }
 
 .switcher ul {
@@ -91,6 +90,7 @@ body {
     color: #363636;
     font-family: 'Montserrat', sans-serif;
     border-right: 3px solid #ccc;
+   
 }
 
 /* End Switcher */
@@ -110,7 +110,6 @@ body {
     height: 400px;
     text-align: center;
     background-color:	#444444;
-    /* box-shadow: 2px 2px 3px #1c242b; */
     padding: 10px;
    
 }
@@ -128,7 +127,6 @@ body {
 }
 
 .recharts-surface {
-    /* width:100% !important; */
     height:100% !important; 
     margin: auto;
 }
@@ -138,14 +136,6 @@ body {
     font-size: 13px;
 } 
 
-.recharts-cartesian-grid {
-
-}
-
-.xAxis {
-    
-}
-
 .no_data {
     font-family: 'Montserrat', sans-serif;
     font-size: 50px;
@@ -154,8 +144,26 @@ body {
     width: auto;
 }
 
+.page-footer {
+    box-shadow: 0 -5px 5px 2px rgba(0,0,0,0.14);
+}
+
+footer {
+    height: 178px;
+    min-height: 178px;
+}
+
+.page-footer {
+    font-family: 'Montserrat', sans-serif;
+}
+
+footer.page-wrap:after {
+    content: "";
+    display: block;
+}
+
 /* Footer */
-footer.page-footer {
+footer.page-footer, footer.page-wrap:after {
     background-color: #363636;
     padding: 0;
 }

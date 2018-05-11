@@ -14,9 +14,9 @@ class Layout extends React.Component {
 		console.log('RENDER <Layout>')
 
 		return (
-			<div>
+			<div className='react_root'>
 				<Navbar/>
-				<div className='main'>
+				<div className='wrapper'>
 						<Switcher/>
 						{this.props.children}
         </div>

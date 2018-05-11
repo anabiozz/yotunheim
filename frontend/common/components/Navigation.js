@@ -5,7 +5,7 @@ const Navbar =  () => {
     
     console.log('RENDER <Navbar>')
 
-    return <nav className='navbar navbar-inverse z-depth-5'>
+    return <nav className='navbar'>
 
         <div className='navbar-header'>
             <Link to={'/main'} className='navbar-brand'><span>Heimdall</span></Link>
