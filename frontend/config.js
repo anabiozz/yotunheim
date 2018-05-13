@@ -1,6 +1,6 @@
 const config = {
     baseDomain: 'http://localhost:8888',
-    timeInterval: 60000,
+    timeInterval: 30000,
     initialState: '',
     defaultChartConfig: {
         chartType: 'LineChart',

@@ -113,14 +113,14 @@ interface
 type NetStat struct{}
 
 // Gather ...
-func (NetStat) Gather(c datastore.Datastore, acc backend.Accumulator) {
+func (NetStat) Gather(c datastore.Datastore, acc backend.Accumulator, getherTime string, groupby string) {
 
 	name := "net"
 
 	influxMetrics := datastore.InfluxMetrics{}
 	influxMetrics.Metric = make(map[string][]datastore.InfluxMetricItem, 0)
 
-	metrics, _ := datastore.QueryDB(c.(influx.Client), "SELECT mean(tcp_maxconn) as tcp_maxconn from net WHERE time >= now() - 5m GROUP BY time(1m) LIMIT 5")
+	metrics, _ := datastore.QueryDB(c.(influx.Client), "SELECT mean(tcp_maxconn) as tcp_maxconn from net WHERE time >= now() - "+getherTime+" GROUP BY time("+groupby+")")
 
 	if len(metrics) > 0 && len(metrics[0].Series) > 0 {
 

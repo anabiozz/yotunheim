@@ -37,14 +37,14 @@ udp_socket      integer
 type Netstat struct{}
 
 // Gather ...
-func (Netstat) Gather(c datastore.Datastore, acc backend.Accumulator) {
+func (Netstat) Gather(c datastore.Datastore, acc backend.Accumulator, getherTime string, groupby string) {
 
 	name := "netstat"
 
 	influxMetrics := datastore.InfluxMetrics{}
 	influxMetrics.Metric = make(map[string][]datastore.InfluxMetricItem, 0)
 
-	metrics, _ := datastore.QueryDB(c.(influx.Client), "SELECT mean(tcp_listen) as tcp_listen from netstat WHERE time >= now() - 5m GROUP BY time(1m) LIMIT 5")
+	metrics, _ := datastore.QueryDB(c.(influx.Client), "SELECT mean(tcp_listen) as tcp_listen from netstat WHERE time >= now() - "+getherTime+" GROUP BY time("+groupby+")")
 
 	if len(metrics) > 0 && len(metrics[0].Series) > 0 {
 

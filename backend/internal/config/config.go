@@ -22,8 +22,13 @@ const (
 type Config struct {
 	Agent        *AgentConfig
 	InputFilters map[string]interface{}
+	Gather       *GatherConfig
+	Inputs       []*models.RunningInput
+}
 
-	Inputs []*models.RunningInput
+type GatherConfig struct {
+	Time     string `toml:"time"`
+	GroupeBy string `toml:"group_by"`
 }
 
 type AgentConfig struct {

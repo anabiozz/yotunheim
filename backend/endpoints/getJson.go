@@ -18,13 +18,24 @@ func GetJSONnEndpoint(
 	e *common.Env,
 	newConfig *config.Config) {
 
+	getherTime := r.FormValue("time")
+	groupby := r.FormValue("groupby")
+
+	if getherTime != "" {
+		newConfig.Gather.Time = getherTime
+	}
+
+	if groupby != "" {
+		newConfig.Gather.GroupeBy = groupby
+	}
+
 	InfluxResult := datastore.InfluxResult{}
 
 	metricChannel := make(chan datastore.InfluxMetrics, 100)
 
 	for _, input := range newConfig.Inputs {
 		acc := metrics.NewAccumulator(input, metricChannel)
-		input.Metrics.Gather(e.DB, acc)
+		input.Metrics.Gather(e.DB, acc, newConfig.Gather.Time, newConfig.Gather.GroupeBy)
 		InfluxResult.Metrics = append(InfluxResult.Metrics, <-metricChannel)
 	}
 

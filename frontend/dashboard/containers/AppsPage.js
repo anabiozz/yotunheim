@@ -1,6 +1,6 @@
 import React from 'react'
 import connect from 'react-redux/lib/connect/connect'
-import { getJson, reset, dismissError } from '../actions/DashboardActions'
+import { getCharts, reset, dismissError } from '../actions/DashboardActions'
 import bindActionCreators from 'redux/lib/bindActionCreators'
 import config from '../../config'
 import { Row } from 'react-materialize'
@@ -17,19 +17,15 @@ class DashboardServersCharts extends React.Component {
 
   updateData() {
     this.props.dismissError()
-    this.props.getJson()
+    this.props.getCharts()
   }
 
   componentWillUnmount() {
     clearTimeout(this.timeout)
   }
 
-  // handleAlertDismiss() {
-  //   this.props.dismissError()
-  // }
-
   componentDidMount() {
-    this.props.getJson()
+    this.props.getCharts()
   }
 
   render() {
@@ -55,7 +51,7 @@ function mapStateToProps(state) {
 }
 function mapDispatchToProps(dispatch) {
   return {
-    getJson: bindActionCreators(getJson, dispatch),
+    getCharts: bindActionCreators(getCharts, dispatch),
     reset: bindActionCreators(reset, dispatch),
     dismissError: bindActionCreators(dismissError, dispatch),
   }

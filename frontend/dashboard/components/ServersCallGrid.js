@@ -3,9 +3,10 @@ import { Chart, Board } from '../../common/components'
 
  const ChartCell = ({data}) => {
 
+    
+
     const renderLine = (data) => {
         return Object.entries(data).map(([key, value], i) => {
-            console.log(data)
             return <Chart chartName={key} value={value} i={i}/>
         })
     } 
@@ -18,6 +19,8 @@ import { Chart, Board } from '../../common/components'
 
     let charts = []
     let tabels = []
+
+    console.log(data.data)
 
     if(data.Metrics !== undefined) {
 

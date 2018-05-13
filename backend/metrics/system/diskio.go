@@ -37,14 +37,14 @@ name
 type DiskIOStats struct{}
 
 // Gather ...
-func (DiskIOStats) Gather(c datastore.Datastore, acc backend.Accumulator) {
+func (DiskIOStats) Gather(c datastore.Datastore, acc backend.Accumulator, getherTime string, groupby string) {
 
 	name := "diskio"
 
 	influxMetrics := datastore.InfluxMetrics{}
 	influxMetrics.Metric = make(map[string][]datastore.InfluxMetricItem, 0)
 
-	metrics, _ := datastore.QueryDB(c.(influx.Client), "SELECT mean(io_time) as io_time from diskio WHERE time >= now() - 5m GROUP BY time(1m) LIMIT 5")
+	metrics, _ := datastore.QueryDB(c.(influx.Client), "SELECT mean(io_time) as io_time from diskio WHERE time >= now() - "+getherTime+" GROUP BY time("+groupby+")")
 
 	if len(metrics) > 0 && len(metrics[0].Series) > 0 {
 

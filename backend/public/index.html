@@ -7,66 +7,62 @@
     <base href="/" />
 
     <script type="text/javascript">
-    /**
-     * Tries to connect to the reload service and start listening to reload events.
-     *
-     * @function tryConnectToReload
-     * @public
-     */
-    function tryConnectToReload(address) {
-        var conn = new WebSocket(address);
-    
-        conn.onclose = function() {
-        setTimeout(function() {
-            tryConnectToReload(address);
-        }, 2000);
-        };
-    
-        conn.onmessage = function(evt) {
-        // appendLog("Refresh received!");
-    
-        // If we uncomment this line, then the page will refresh every time a message is received.
-        location.reload()
-        };
-    }
+        /**
+         * Tries to connect to the reload service and start listening to reload events.
+         *
+         * @function tryConnectToReload
+         * @public
+         */
+        function tryConnectToReload(address) {
+            var conn = new WebSocket(address);
+        
+            conn.onclose = function() {
+            setTimeout(function() {
+                tryConnectToReload(address);
+            }, 2000);
+            };
+        
+            conn.onmessage = function(evt) {
+            // appendLog("Refresh received!");
+        
+            // If we uncomment this line, then the page will refresh every time a message is received.
+            location.reload()
+            };
+        }
 
-    try {
-        if (window["WebSocket"]) {
-        // The reload endpoint is hosted on a statically defined port.
         try {
-            tryConnectToReload("ws://localhost:8888/reload");
+            if (window["WebSocket"]) {
+            // The reload endpoint is hosted on a statically defined port.
+            try {
+                tryConnectToReload("ws://localhost:8888/reload");
+            }
+            catch (ex) {
+                // If an exception is thrown, that means that we couldn't connect to to WebSockets because of mixed content
+                // security restrictions, so we try to connect using wss.
+                tryConnectToReload("wss://localhost:8888/reload");
+            }
+            } else {
+            console.log("Your browser does not support WebSockets, cannot connect to the Reload service.");
+            }
+        } catch (ex) {
+            console.error('Exception during connecting to Reload:', ex);
         }
-        catch (ex) {
-            // If an exception is thrown, that means that we couldn't connect to to WebSockets because of mixed content
-            // security restrictions, so we try to connect using wss.
-            tryConnectToReload("wss://localhost:8888/reload");
-        }
-        } else {
-        console.log("Your browser does not support WebSockets, cannot connect to the Reload service.");
-        }
-    } catch (ex) {
-        console.error('Exception during connecting to Reload:', ex);
-    }
     </script>
 
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
-
-    <!-- Import Google Icon Font -->
-    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <!-- Import materialize.css -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css" rel="stylesheet">
-
-    <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/icons.css">
+    <link rel="stylesheet" href="./css/materialize.min.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/font.css">
+    <!-- <link rel="stylesheet" href="./css/react-select.css"> -->
     
 </head>
 <body>
-    <!-- Import jQuery before materialize.js -->
-    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
 
     <div id="root"></div>
 
-<script type="text/javascript" src="./bundle/bundle.js"></script></body>
+     <!-- Import jQuery before materialize.js -->
+    <script type="text/javascript" src="./js/jquery-2.2.1.min.js"></script>
+    <script type="text/javascript" src="./js/materialize.min.js"></script>
+    <script type="text/javascript" src="./bundle/bundle.js"></script></body>
 </html>

@@ -26,8 +26,9 @@ body {
 }
 
 .navbar-header {
- 
+    
 }
+
 .navbar-brand {
     height: auto;
     padding: 5px 15px;
@@ -94,6 +95,8 @@ body {
 }
 
 /* End Switcher */
+
+/* Charts */
     
 .charts {
     display: flex;
@@ -104,6 +107,14 @@ body {
     min-height: 100%;
 }
 
+.selects {
+    width: 50%;
+    height: auto;
+    display: flex;
+    justify-content: space-around;
+}
+
+
 .chart {
     margin: 10px;
     flex-basis: calc(33.3% - 20px);
@@ -113,6 +124,12 @@ body {
     padding: 10px;
    
 }
+
+.chart_title {
+    display: flex;
+    justify-content: space-between;
+}
+
 
 .chart_head_text {
    font-size: 21px;
