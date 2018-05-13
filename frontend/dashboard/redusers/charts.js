@@ -7,7 +7,7 @@ import {
   } from '../constants'
   
   const initialState = {
-    stats:[],
+    data:[],
     errors: null,
     fetching: false
   }
@@ -17,11 +17,11 @@ export default function charts(state = initialState, action) {
     case GET_SERVERS_REQUEST:
       return { ...state, fetching: true }
     case GET_SERVERS_SUCCESS:
-      return { ...state, stats: action.response, fetching: false, errors: null }
+      return Object.assign({}, state, action.response, {fetching: false})
     case GET_SERVERS_ERROR:
       return { ...state, errors: action.error, fetching: false }
     case GET_SERVERS_RESET:
-      return { ...state, stats: [] }
+      return { ...state, data: [] }
     case DISMISS_SERVERS_ERROR:
       return { ...state, errors: null }
     default:

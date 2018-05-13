@@ -11,12 +11,13 @@ import {
   const receiveSuccess = response => ({ type: GET_SERVERS_SUCCESS, response })
   const receiveFail = error => ({ type: GET_SERVERS_ERROR, error })
   
-  export function getJson() {
-    return (dispatch) => {
+  export function getCharts(time, groupby) {
+    console.log("getCharts")
+    return (dispatch, getState) => {
       dispatch({
         type: GET_SERVERS_REQUEST
       })
-      return fetch(config.baseDomain + '/api/get-json', {
+      return fetch(config.baseDomain + '/api/get-json?time=' + time + '&groupby=' + groupby, {
         method: 'get',
       })
         .then(response => response.json())

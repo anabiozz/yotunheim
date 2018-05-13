@@ -18,10 +18,12 @@ const store = createStore(
     applyMiddleware(thunk, reduxImmutableStateInvariant())
 )
 
+let state = store.getState()
+
 const history = syncHistoryWithStore(browserHistory, store)
 
 render(
     <Provider store={store}>
-        <Router routes={routes()} history={history}/>
+        <Router routes={routes(state.user)} history={history}/>
     </Provider>, document.getElementById('root')
 )

@@ -1,14 +1,16 @@
 import React, {PropTypes} from 'react'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts'
 
+
 const Chart = ({chartName, value, i}) => {
 
     console.log('RENDER <Chart>')
 
     return (
         <div className='chart z-depth-5' key={i}>
-
-            <span className='chart_head_text'>{chartName}</span>
+            <div className='chart_title'>
+                <span className='chart_head_text'>{chartName}</span>
+            </div>
             
             <LineChart width={550} height={300} data={value}>
 

@@ -19,7 +19,7 @@ class Layout extends React.Component {
 				<div className='wrapper'>
 						<Switcher/>
 						{this.props.children}
-        </div>
+        		</div>
 				<Footer/>
 			</div>
 		) 
@@ -31,9 +31,7 @@ Layout.propTypes = {
 }
 
 function mapStateToProps (state) {
-	return {
-		user: state
-	}
+	return {}
 }
 
 export default connect(mapStateToProps)(Layout)
