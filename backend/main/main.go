@@ -116,11 +116,16 @@ func main() {
 	// Mux
 	router := mux.NewRouter()
 
+	router.HandleFunc("/api/settings", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Println("/api/settings")
+	}).Methods("PUT")
+
 	router.HandleFunc("/api/get-json", func(w http.ResponseWriter, r *http.Request) {
 		endpoints.GetJSONnEndpoint(w, r, &env, newConfig)
 		// send config with charts initial state in request body?
 	}).Methods("GET")
 
+	// Handler for WebSockets
 	router.HandleFunc("/reload", func(w http.ResponseWriter, r *http.Request) {
 		ServeWs(hub, w, r)
 	})

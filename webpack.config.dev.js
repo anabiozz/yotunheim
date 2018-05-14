@@ -1,19 +1,12 @@
-import path from 'path'
-
-// const GLOBALS = {
-//     'process.env.NODE_ENV': JSON.stringify('production')
-// }
-
+const path = require('path')
 
 module.exports = {
-    debug: false,
     mode: 'development',
-    entry: ['./main.js'],
+    entry: ['./frontend/main.js'],
     output: {
-        path: path.resolve(__dirname, '../backend/public'),
-        filename: 'bundle.js'
+        path: path.resolve(__dirname, './backend/public'),
+        filename: 'bundle/bundle.js'
     },
-    target: 'web',
     module: {
         rules: [
             {
@@ -25,9 +18,9 @@ module.exports = {
                 ]
             },
             {
-                test: /\.(js)$/,
+                test: /\.js$/,
                 exclude: /node_modules/,
-                use: ['babel-loader'],
+                loader: 'babel-loader'
             },
         ]
     },

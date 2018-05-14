@@ -7,8 +7,11 @@ const Navbar =  () => {
 
     return <nav className='navbar'>
         <div className='navbar-header'>
-            <Link to={'/main'} className='navbar-brand'><span>Heimdall</span></Link>    
+            <Link to={'/main'} className='navbar-brand'><span>Heimdall</span></Link>   
         </div>
+        <div className='settings'>
+            <Link to={'/settings'} className='settigns_link'><span>Settings</span></Link> 
+        </div> 
 
     </nav>
 }

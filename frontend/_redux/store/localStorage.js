@@ -1,5 +1,5 @@
 export const loadState = () => {
-  // localStorage.removeItem('state')
+  localStorage.removeItem('state')
   try {
     const serializedState = localStorage.getItem('state')
     if (serializedState === null) {

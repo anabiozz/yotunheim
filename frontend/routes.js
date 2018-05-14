@@ -5,6 +5,7 @@ import Route from 'react-router/lib/Route'
 import Layout from './common/containers/Layout'
 import DashboardServersCharts from './dashboard/containers/DashboardServersCharts'
 import AppsPage from './dashboard/containers/AppsPage'
+import Settings from './settings/containers/Settings'
 
 export default () => {
     return (
@@ -12,6 +13,9 @@ export default () => {
             <IndexRoute component={DashboardServersCharts} />
             <Route path='main' component={DashboardServersCharts} />
             <Route path='apps' component={AppsPage} />
+            <Route path='settings' component={Settings}>
+                <IndexRoute component={Settings} />
+            </Route>
         </Route>
     )
 }

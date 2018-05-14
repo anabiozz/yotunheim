@@ -1,14 +1,13 @@
-
 import React from 'react'
 import { render } from 'react-dom'
 import Provider from 'react-redux/lib/components/Provider'
 import browserHistory from 'react-router/lib/browserHistory'
 import Router from 'react-router/lib/Router'
 import routes from './routes'
-import * as reducers from './reducers'
+import * as reducers from './_redux/reducers'
 import { syncHistoryWithStore, routerReducer } from 'react-router-redux'
-import { loadState, SaveState } from './store/localStorage'
-import configureStore from './store'
+import { loadState, SaveState } from './_redux/store/localStorage'
+import configureStore from './_redux/store'
 
 reducers.routing = routerReducer
 
@@ -18,8 +17,6 @@ const store = configureStore(prersistedState)
 store.subscribe(() => {
     SaveState(store.getState())
 })
-
-
 
 const history = syncHistoryWithStore(browserHistory, store)
 

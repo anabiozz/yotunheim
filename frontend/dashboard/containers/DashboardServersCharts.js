@@ -3,7 +3,6 @@ import connect from 'react-redux/lib/connect/connect'
 import { getCharts, reset, dismissError } from '../actions/DashboardActions'
 import bindActionCreators from 'redux/lib/bindActionCreators'
 import config from '../../config'
-import Select from 'react-select'
 
 //Components
 import ChartCell from '../components/ServersCallGrid'
@@ -12,34 +11,7 @@ class DashboardServersCharts extends React.Component {
   constructor(...props) {
     super(...props)
 
-    this.state = {
-      time: '',
-      groupby: ''
-    }
-
-    this.updateData = this.updateData.bind(this)
     this.updateCharts = this.updateCharts.bind(this)
-    this.handleTime = this.handleTime.bind(this)
-    this.handleGroupBy = this.handleGroupBy.bind(this)
-  }
-
-  componentWillUnmount() {
-    clearTimeout(this.timeout)
-  }
-
-  componentDidMount() {
-    const { charts } = this.props
-    this.setState({
-      time: charts.time,
-      groupby: charts.groupby
-    })
-    
-    this.props.getCharts(charts.time, charts.groupby)
-  }
-
-  updateData(time, groupby) {
-    this.props.dismissError()
-    this.props.getCharts(time, groupby)
   }
 
   updateCharts() {
@@ -48,20 +20,18 @@ class DashboardServersCharts extends React.Component {
     this.props.getCharts(time, groupby)
   }
 
-  handleTime = (time) => {
-    this.setState({
-      time: `${time.label}`,
-      groupby: this.state.groupby
-    })
-    this.updateData(`${time.label}`, this.state.groupby)
+  componentWillUnmount() {
+    clearTimeout(this.timeout)
   }
 
-  handleGroupBy = (groupby) => {
+  componentDidMount() {
+    const { settings } = this.props
     this.setState({
-      time: this.state.time,
-      groupby: `${groupby.label}`
+      time: settings.time,
+      groupby: settings.groupby
     })
-    this.updateData(this.state.time, `${groupby.label}`)
+    
+    this.props.getCharts(settings.time, settings.groupby)
   }
 
   render() {
@@ -74,37 +44,6 @@ class DashboardServersCharts extends React.Component {
 
     return (
       <div className='main_monitoring'>
-          <div className='selects'>
-            <Select
-                  name='time'
-                  value={this.state.time}
-                  onChange={this.handleTime}
-                  options={[
-                    { value: '5m', label: '5m' },
-                    { value: '15m', label: '15m' },
-                    { value: '30m', label: '30m' },
-                    { value: '1h', label: '1h' },
-                    { value: '3h', label: '3h' },
-                    { value: '8h', label: '8h' },
-                    { value: '24h', label: '24h' },
-                ]}
-              />
-              <Select
-                  name='limit'
-                  value={this.state.groupby}
-                  onChange={this.handleGroupBy}
-                  options={[
-                    { value: '30s', label: '30s' },
-                    { value: '1m', label: '1m' },
-                    { value: '5m', label: '5m' },
-                    { value: '10m', label: '10m' },
-                    { value: '30m', label: '30m' },
-                    { value: '1h', label: '1h' },
-                    { value: '5h', label: '5h' },
-                ]}
-              />
-            </div>
-
           <ChartCell data={ charts.data }/>
       </div>
       
@@ -112,8 +51,10 @@ class DashboardServersCharts extends React.Component {
   }
 }
 function mapStateToProps(state) {
+  console.log(state)
   return {
-    charts: state.default.charts
+    charts: state.default.charts,
+    settings: state.default.settings
   }
 }
 function mapDispatchToProps(dispatch) {
