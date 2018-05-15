@@ -35,14 +35,14 @@ zombies       integer
 type ProcessesStats struct{}
 
 // Gather ...
-func (ProcessesStats) Gather(c datastore.Datastore, acc backend.Accumulator, getherTime string, groupby string) {
+func (ProcessesStats) Gather(c datastore.Datastore, acc backend.Accumulator) {
 
 	name := "processes"
 
 	influxMetrics := datastore.InfluxMetrics{}
 	influxMetrics.Metric = make(map[string][]datastore.InfluxMetricItem, 0)
 
-	metrics, _ := datastore.QueryDB(c.(influx.Client), "SELECT mean(total) as total from processes WHERE time >= now() - "+getherTime+" GROUP BY time("+groupby+")")
+	metrics, _ := datastore.QueryDB(c.(influx.Client), "SELECT mean(total) as total from processes WHERE time >= now() - 30m GROUP BY time(1m)")
 
 	if len(metrics) > 0 && len(metrics[0].Series) > 0 {
 

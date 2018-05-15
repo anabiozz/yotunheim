@@ -29,14 +29,14 @@ processes_forked integer
 type KernelStats struct{}
 
 // Gather ...
-func (KernelStats) Gather(c datastore.Datastore, acc backend.Accumulator, getherTime string, groupby string) {
+func (KernelStats) Gather(c datastore.Datastore, acc backend.Accumulator) {
 
 	name := "kernel"
 
 	influxMetrics := datastore.InfluxMetrics{}
 	influxMetrics.Metric = make(map[string][]datastore.InfluxMetricItem, 0)
 
-	metrics, _ := datastore.QueryDB(c.(influx.Client), "SELECT mean(context_switches) as context_switches from kernel WHERE time >= now() - "+getherTime+" GROUP BY time("+groupby+")")
+	metrics, _ := datastore.QueryDB(c.(influx.Client), "SELECT mean(context_switches) as context_switches from kernel WHERE time >= now() - 30m GROUP BY time(1m)")
 
 	if len(metrics) > 0 && len(metrics[0].Series) > 0 {
 

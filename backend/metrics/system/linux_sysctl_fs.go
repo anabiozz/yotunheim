@@ -35,14 +35,14 @@ inode-preshrink-nr integer
 type LinuxSysctlFsStats struct{}
 
 // Gather ...
-func (LinuxSysctlFsStats) Gather(c datastore.Datastore, acc backend.Accumulator, getherTime string, groupby string) {
+func (LinuxSysctlFsStats) Gather(c datastore.Datastore, acc backend.Accumulator) {
 
 	name := "linux_sysctl_fs"
 
 	influxMetrics := datastore.InfluxMetrics{}
 	influxMetrics.Metric = make(map[string][]datastore.InfluxMetricItem, 0)
 
-	metrics, _ := datastore.QueryDB(c.(influx.Client), "SELECT mean(file-max) as file-max from linux_sysctl_fs WHERE time >= now() - "+getherTime+" GROUP BY time("+groupby+")")
+	metrics, _ := datastore.QueryDB(c.(influx.Client), "SELECT mean(file-max) as file-max from linux_sysctl_fs WHERE time >= now() - 30m GROUP BY time(1m)")
 
 	if len(metrics) > 0 && len(metrics[0].Series) > 0 {
 

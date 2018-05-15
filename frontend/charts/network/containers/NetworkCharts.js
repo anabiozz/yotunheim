@@ -1,11 +1,11 @@
 import React from 'react'
 import connect from 'react-redux/lib/connect/connect'
-import { getCharts, reset, dismissError } from '../actions/DashboardActions'
+import { getCharts, reset, dismissError } from '../actions/NetworkChartsActions'
 import bindActionCreators from 'redux/lib/bindActionCreators'
-import config from '../../config'
+import config from '../../../config'
 
 //Components
-import ChartCell from '../components/ServersCallGrid'
+import Charts from '../components/Charts'
 
 class DashboardServersCharts extends React.Component {
   constructor(...props) {
@@ -17,7 +17,7 @@ class DashboardServersCharts extends React.Component {
   updateCharts() {
     const { time, groupby } = this.state
     this.props.dismissError()
-    this.props.getCharts(time, groupby)
+    this.props.getCharts()
   }
 
   componentWillUnmount() {
@@ -31,7 +31,7 @@ class DashboardServersCharts extends React.Component {
       groupby: settings.groupby
     })
     
-    this.props.getCharts(settings.time, settings.groupby)
+    this.props.getCharts()
   }
 
   render() {
@@ -42,16 +42,17 @@ class DashboardServersCharts extends React.Component {
 
     const { charts } = this.props
 
+    console.log(charts)
+
     return (
       <div className='main_monitoring'>
-          <ChartCell data={ charts.data }/>
+          <Charts data={ charts.data }/>
       </div>
       
     )
   }
 }
 function mapStateToProps(state) {
-  console.log(state)
   return {
     charts: state.default.charts,
     settings: state.default.settings

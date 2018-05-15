@@ -18,8 +18,6 @@ import (
 	_ "github.com/anabiozz/yotunheim/backend/metrics/all"
 	"github.com/fsnotify/fsnotify"
 	"github.com/gorilla/mux"
-
-	"github.com/anabiozz/yotunheim/backend/internal/config"
 )
 
 var (
@@ -63,19 +61,22 @@ func main() {
 	//****************************************************************************************//
 
 	// Create new config
-	newConfig := config.NewConfig()
-	// Filling new config getting data from default config
-	err = newConfig.LoadConfig()
-	inputs := newConfig.InputFilters["inputs"].([]interface{})
+	// newConfig := config.NewConfig()
+	// // Filling new config getting data from default config
+	// err = newConfig.LoadConfig()
+	// if err != nil {
+	// 	log.Panic(err)
+	// }
+	// inputs := newConfig.InputFilters["inputs"].([]interface{})
 
 	// Filling InputFilters
-	for _, value := range inputs {
-		newConfig.AddInput(value.(string))
-	}
+	// for _, value := range inputs {
+	// 	newConfig.AddInput(value.(string))
+	// }
 
-	if len(newConfig.Inputs) == 0 {
-		log.Fatalf("ERROR: no inputs found, did you provide a valid config file?")
-	}
+	// if len(newConfig.Inputs) == 0 {
+	// 	log.Fatalf("ERROR: no inputs found, did you provide a valid config file?")
+	// }
 
 	//**********************************File notifier for bundle reloading**********************//
 
@@ -116,24 +117,39 @@ func main() {
 	// Mux
 	router := mux.NewRouter()
 
+	// ENDPOINTS *****************************************************************
+
 	router.HandleFunc("/api/settings", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("/api/settings")
 	}).Methods("PUT")
 
-	router.HandleFunc("/api/get-json", func(w http.ResponseWriter, r *http.Request) {
-		endpoints.GetJSONnEndpoint(w, r, &env, newConfig)
+	router.HandleFunc("/api/get-common-charts", func(w http.ResponseWriter, r *http.Request) {
+		endpoints.GetCommonCharts(w, r, &env)
 		// send config with charts initial state in request body?
 	}).Methods("GET")
+
+	router.HandleFunc("/api/get-network-charts", func(w http.ResponseWriter, r *http.Request) {
+		endpoints.GetNetworkCharts(w, r, &env)
+	}).Methods("GET")
+
+	router.HandleFunc("/api/get-common-charts", func(w http.ResponseWriter, r *http.Request) {
+		endpoints.GetCommonCharts(w, r, &env)
+		// send config with charts initial state in request body?
+	}).Methods("GET")
+
+	// END ENDPOINTS *****************************************************************
 
 	// Handler for WebSockets
 	router.HandleFunc("/reload", func(w http.ResponseWriter, r *http.Request) {
 		ServeWs(hub, w, r)
 	})
 
+	// Start point for reactjs
 	router.HandleFunc("/{category}", func(w http.ResponseWriter, r *http.Request) {
 		handlers.DashboardHandler(w, r)
 	}).Methods("GET")
 
+	// Static files
 	router.PathPrefix("/").Handler(http.StripPrefix("/",
 		http.FileServer(http.Dir("../go/src/github.com/anabiozz/yotunheim/backend/public"))))
 
