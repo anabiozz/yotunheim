@@ -6,5 +6,5 @@ import (
 
 // Gatherer ...
 type Gatherer interface {
-	Gather(c datastore.Datastore, acc Accumulator, getherTime string, groupby string)
+	Gather(c datastore.Datastore, acc Accumulator)
 }

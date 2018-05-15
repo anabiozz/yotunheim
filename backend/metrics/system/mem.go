@@ -36,14 +36,14 @@ wired             integer
 type MemStats struct{}
 
 // Gather ...
-func (MemStats) Gather(c datastore.Datastore, acc backend.Accumulator, getherTime string, groupby string) {
+func (MemStats) Gather(c datastore.Datastore, acc backend.Accumulator) {
 
 	name := "mem"
 
 	influxMetrics := datastore.InfluxMetrics{}
 	influxMetrics.Metric = make(map[string][]datastore.InfluxMetricItem, 0)
 
-	metrics, _ := datastore.QueryDB(c.(influx.Client), "SELECT mean(used_percent) as mem_usage from mem WHERE time >= now() - "+getherTime+" GROUP BY time("+groupby+")")
+	metrics, _ := datastore.QueryDB(c.(influx.Client), "SELECT mean(used_percent) as mem_usage from mem WHERE time >= now() - 30m GROUP BY time(1m)")
 
 	if len(metrics) > 0 && len(metrics[0].Series) > 0 {
 

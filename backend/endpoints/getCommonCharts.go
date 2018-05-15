@@ -11,15 +11,18 @@ import (
 	"github.com/anabiozz/yotunheim/backend/metrics"
 )
 
-// GetJSONnEndpoint ...
-func GetJSONnEndpoint(
-	w http.ResponseWriter,
-	r *http.Request,
-	e *common.Env,
-	newConfig *config.Config) {
+// GetCommonCharts ...
+func GetCommonCharts(w http.ResponseWriter, r *http.Request, e *common.Env) {
+
+	// Create new config
+	newConfig := config.NewConfig()
+	metricArray := []string{"cpu", "mem", "disk", "diskio", "kernel", "precesses"}
+
+	for _, value := range metricArray {
+		newConfig.AddInput(value)
+	}
 
 	InfluxResult := datastore.InfluxResult{}
-
 	metricChannel := make(chan datastore.InfluxMetrics, 100)
 
 	for _, input := range newConfig.Inputs {

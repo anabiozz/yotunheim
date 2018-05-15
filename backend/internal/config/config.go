@@ -21,7 +21,7 @@ const (
 // Config struct
 type Config struct {
 	Agent        *AgentConfig
-	InputFilters map[string]interface{}
+	InputFilters map[string]string
 	Gather       *GatherConfig
 	Inputs       []*models.RunningInput
 }
@@ -94,26 +94,16 @@ type AgentConfig struct {
 func NewConfig() *Config {
 	c := &Config{
 		Agent:        &AgentConfig{},
-		InputFilters: make(map[string]interface{}, 0),
+		InputFilters: make(map[string]string, 0),
 		// Inputs:       make([]*models.RunningInput, 0),
 		// Outputs:      make([]*models.RunningOutput, 0),
 	}
 	return c
 }
 
-// Check the occurrence of the name in list array
-func sliceContains(name string, list []interface{}) bool {
-	for _, b := range list {
-		if b == name {
-			return true
-		}
-	}
-	return false
-}
-
 // AddInput ...
 func (c *Config) AddInput(name string) error {
-	if len(c.InputFilters["inputs"].([]interface{})) > 0 && !sliceContains(name, c.InputFilters["inputs"].([]interface{})) {
+	if len(c.InputFilters["inputs"]) > 0 {
 		return nil
 	}
 	// Legacy support renaming io input to diskio

@@ -1,12 +1,12 @@
 import React from 'react'
 import connect from 'react-redux/lib/connect/connect'
-import { getCharts, reset, dismissError } from '../actions/DashboardActions'
+import { getCharts, reset, dismissError } from '../actions/CommonChartsActions'
 import bindActionCreators from 'redux/lib/bindActionCreators'
-import config from '../../config'
+import config from '../../../config'
 import { Row } from 'react-materialize'
 
 //Components
-import ChartCell from '../components/ServersCallGrid'
+import Charts from '../components/Charts'
 
 class DashboardServersCharts extends React.Component {
   constructor(...props) {

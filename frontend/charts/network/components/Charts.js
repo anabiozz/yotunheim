@@ -1,9 +1,7 @@
 import React from 'react'
-import { Chart, Board } from '../../common/components'
+import { Chart, Board } from '../../../shared/components'
 
- const ChartCell = ({data}) => {
-
-    
+ const Charts = ({data}) => {
 
     const renderLine = (data) => {
         return Object.entries(data).map(([key, value], i) => {
@@ -19,8 +17,6 @@ import { Chart, Board } from '../../common/components'
 
     let charts = []
     let tabels = []
-
-    console.log(data.data)
 
     if(data.Metrics !== undefined) {
 
@@ -49,4 +45,4 @@ import { Chart, Board } from '../../common/components'
     return <div className='no_data'>no data</div>
 }
 
-export default ChartCell
+export default Charts

@@ -6,17 +6,17 @@ import {
     DISMISS_SERVERS_ERROR,
   } from '../constants'
   import fetch from 'isomorphic-fetch'
-  import config from '../../config'
+  import config from '../../../config'
   
   const receiveSuccess = response => ({ type: GET_SERVERS_SUCCESS, response })
   const receiveFail = error => ({ type: GET_SERVERS_ERROR, error })
   
-  export function getCharts(time, groupby) {
+  export function getCharts() {
     return (dispatch) => {
       dispatch({
         type: GET_SERVERS_REQUEST
       })
-      return fetch(config.baseDomain + '/api/get-json?time=' + time + '&groupby=' + groupby, {
+      return fetch(config.baseDomain + '/api/get-network-charts', {
         method: 'get',
       })
         .then(response => response.json())
