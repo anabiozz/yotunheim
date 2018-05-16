@@ -6,21 +6,17 @@ import (
 	influx "github.com/influxdata/influxdb/client/v2"
 )
 
-// InfluxResult ...
-type InfluxResult struct {
-	Metrics []InfluxMetrics
-}
-
-// InfluxMetricItem ...
-type InfluxMetricItem struct {
-	Payload int64       `json:"payload"`
-	Xline   interface{} `json:"xline"`
-}
-
 // InfluxMetrics ...
 type InfluxMetrics struct {
-	Metric    map[string][]InfluxMetricItem
+	Metric    []TableMetrics
 	ChartType string
+	ChartName string
+}
+
+// TableMetrics
+type TableMetrics struct {
+	Titles []string
+	Value  [][]interface{}
 }
 
 // InfluxErr ...

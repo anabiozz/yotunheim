@@ -26,3 +26,7 @@ func NewAccumulator(runningInput MetricGetter, metrics chan datastore.InfluxMetr
 func (ac *accumulator) AddMetric(influxMetrics datastore.InfluxMetrics) {
 	ac.metrics <- ac.getter.GetMetric(influxMetrics)
 }
+
+func (ac *accumulator) AddTable(influxMetrics datastore.InfluxMetrics) {
+	ac.metrics <- ac.getter.GetMetric(influxMetrics)
+}

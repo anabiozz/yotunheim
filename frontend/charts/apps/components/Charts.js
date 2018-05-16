@@ -7,10 +7,8 @@ import { Chart, Board } from '../../../shared/components'
         return <Chart chartName={data.ChartName} value={data.Metric[0].Value} key={i}/>
     } 
 
-    const renderTable = (data) => {
-        return Object.entries(data).map(([key, value]) => {
-            return <Board chartName={key} value={value}/>
-        })
+    const renderTable = (data, i) => {
+        return <Board chartName={data.ChartName} value={data.Metric[0]} key={i}/>
     }
 
     let charts = []
@@ -27,18 +25,16 @@ import { Chart, Board } from '../../../shared/components'
                 case  'histogram':
                     // charts.push(this._renderBar(chartData.Metrics[index].Metric))
                     break
-                case  'table':
-                    tabels.push(renderTable(data.Metric))
+                case 'table':
+                    tabels.push(renderTable(data[index], index))
                     break
             }
         }
-
         return (
-            <div className='charts'>
-                {charts}
+            <div className='table'>
+                {tabels}
             </div>
         )
-
     }
     return <div className='no_data'>no data</div>
 }

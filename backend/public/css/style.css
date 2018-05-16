@@ -115,8 +115,6 @@ body {
     min-height: 100%;
 }
 
-
-
 .chart {
     margin: 10px;
     flex-basis: calc(33.3% - 20px);
@@ -130,7 +128,6 @@ body {
     display: flex;
     justify-content: space-between;
 }
-
 
 .chart_head_text {
    font-size: 21px;
@@ -162,6 +159,26 @@ body {
     width: auto;
 }
 
+/* Table */
+
+.table {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    padding: 30px;
+}
+
+.table_main {
+   text-align: center;
+}
+
+.table_name {
+    font-size: 25px;
+    font-family: 'Montserrat', sans-serif;
+    color: #eaebec;
+    margin: 20px;
+}
+/* Footer */
+
 .page-footer {
     box-shadow: 0 -5px 5px 2px rgba(0,0,0,0.14);
 }
@@ -180,7 +197,6 @@ footer.page-wrap:after {
     display: block;
 }
 
-/* Footer */
 footer.page-footer, footer.page-wrap:after {
     background-color: #363636;
     padding: 0;

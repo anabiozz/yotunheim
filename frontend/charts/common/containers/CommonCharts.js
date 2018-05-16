@@ -1,6 +1,6 @@
 import React from 'react'
 import connect from 'react-redux/lib/connect/connect'
-import { getCharts, reset, dismissError } from '../actions/CommonChartsActions'
+import { getCommonCharts, reset, dismissError } from '../actions/CommonChartsActions'
 import bindActionCreators from 'redux/lib/bindActionCreators'
 import config from '../../../config'
 
@@ -15,9 +15,8 @@ class CommonCharts extends React.Component {
   }
 
   updateCharts() {
-    const { time, groupby } = this.state
     this.props.dismissError()
-    this.props.getCharts()
+    this.props.getCommonCharts()
   }
 
   componentWillUnmount() {
@@ -31,22 +30,20 @@ class CommonCharts extends React.Component {
       groupby: settings.groupby
     })
     
-    this.props.getCharts()
+    this.props.getCommonCharts()
   }
 
   render() {
-    console.log('RENDER <DashboardServersCharts>')
+    console.log('RENDER <CommonCharts>')
 
     clearTimeout(this.timeout)
     this.timeout = setTimeout(this.updateCharts, config.timeInterval)
 
-    const { charts } = this.props
-
-    console.log(charts)
+    const { commonCharts } = this.props
 
     return (
       <div className='main_monitoring'>
-          <Charts data={ charts.data }/>
+          <Charts data={ commonCharts.data }/>
       </div>
       
     )
@@ -54,13 +51,13 @@ class CommonCharts extends React.Component {
 }
 function mapStateToProps(state) {
   return {
-    charts: state.default.charts,
+    commonCharts: state.default.commonCharts,
     settings: state.default.settings
   }
 }
 function mapDispatchToProps(dispatch) {
   return {
-    getCharts: bindActionCreators(getCharts, dispatch),
+    getCommonCharts: bindActionCreators(getCommonCharts, dispatch),
     reset: bindActionCreators(reset, dispatch),
     dismissError: bindActionCreators(dismissError, dispatch),
   }

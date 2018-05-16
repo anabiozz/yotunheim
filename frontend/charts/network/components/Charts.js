@@ -3,34 +3,30 @@ import { Chart, Board } from '../../../shared/components'
 
  const Charts = ({data}) => {
 
-    const renderLine = (data) => {
-        return Object.entries(data).map(([key, value], i) => {
-            return <Chart chartName={key} value={value} i={i}/>
-        })
+    const renderLine = (data, i) => {
+        return <Chart chartName={data.ChartName} value={data.Metric[0].Value} key={i}/>
     } 
 
     const renderTable = (data) => {
-        return Object.entries(data).map(([key, value]) => {
-            return <Board chartName={key} value={value}/>
-        })
+        return <Board chartName={'key'} value={data}/>
     }
 
     let charts = []
     let tabels = []
 
-    if(data.Metrics !== undefined) {
+    if(data.length > 0) {
 
-        for (let index = 0; index < data.Metrics.length; index++) {
+        for (let index = 0; index < data.length; index++) {
 
-            switch (data.Metrics[index].ChartType) {
+            switch (data[index].ChartType) {
                 case 'counter':
-                    charts.push(renderLine(data.Metrics[index].Metric))
+                    charts.push(renderLine(data[index], index))
                     break
                 case  'histogram':
                     // charts.push(this._renderBar(chartData.Metrics[index].Metric))
                     break
                 case  'table':
-                    tabels.push(renderTable(data.Metrics[index].Metric))
+                    tabels.push(renderTable(data.Metric))
                     break
             }
         }

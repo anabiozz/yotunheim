@@ -31,40 +31,39 @@ cpu
 */
 
 // CPUStats ...
-type CPUStats struct{}
+type DockerStats struct{}
 
 // Gather ...
-func (CPUStats) Gather(c datastore.Datastore, acc backend.Accumulator) {
+func (DockerStats) Gather(c datastore.Datastore, acc backend.Accumulator) {
 
-	name := "cpu"
+	// name := "docker"
 
-	tableMetrics := datastore.TableMetrics{}
-
+	allDocker := []string{"docker", "docker_container_blkio", "docker_container_cpu", "docker_container_mem", "docker_container_net"}
 	influxMetrics := datastore.InfluxMetrics{}
-	influxMetrics.Metric = make([]datastore.TableMetrics, 0)
 
-	metrics, _ := datastore.QueryDB(c.(influx.Client), "SELECT 100-MEAN(usage_idle) AS usage_idle FROM cpu WHERE time >= now() - 30m GROUP BY time(1m)")
+	for _, val := range allDocker {
+		tableMetrics := datastore.TableMetrics{}
+		influxMetrics.Metric = make([]datastore.TableMetrics, 0)
 
-	if len(metrics) > 0 && len(metrics[0].Series) > 0 {
+		metrics, _ := datastore.QueryDB(c.(influx.Client), "SELECT MEAN(*) FROM "+val+" WHERE time >= now() - 10m GROUP BY time(5m)")
 
-		if metrics[0].Series[0].Values[1] != nil {
+		if len(metrics) > 0 && len(metrics[0].Series) > 0 {
+
 			tableMetrics.Titles = make([]string, len(metrics[0].Series[0].Columns))
 			tableMetrics.Value = make([][]interface{}, len(metrics[0].Series[0].Values))
-
 			copy(tableMetrics.Titles, metrics[0].Series[0].Columns)
 			copy(tableMetrics.Value, metrics[0].Series[0].Values)
+
 			influxMetrics.Metric = append(influxMetrics.Metric, tableMetrics)
-
-			influxMetrics.ChartType = backend.Counter
-			influxMetrics.ChartName = name
+			influxMetrics.ChartType = backend.Table
+			influxMetrics.ChartName = val
 		}
-
+		acc.AddMetric(influxMetrics)
 	}
-	acc.AddMetric(influxMetrics)
 }
 
 func init() {
-	metrics.Add("cpu", func() backend.Gatherer {
-		return CPUStats{}
+	metrics.Add("docker", func() backend.Gatherer {
+		return DockerStats{}
 	})
 }

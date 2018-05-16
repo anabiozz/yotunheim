@@ -132,9 +132,8 @@ func main() {
 		endpoints.GetNetworkCharts(w, r, &env)
 	}).Methods("GET")
 
-	router.HandleFunc("/api/get-common-charts", func(w http.ResponseWriter, r *http.Request) {
-		endpoints.GetCommonCharts(w, r, &env)
-		// send config with charts initial state in request body?
+	router.HandleFunc("/api/get-apps-charts", func(w http.ResponseWriter, r *http.Request) {
+		endpoints.GetAppsCharts(w, r, &env)
 	}).Methods("GET")
 
 	// END ENDPOINTS *****************************************************************

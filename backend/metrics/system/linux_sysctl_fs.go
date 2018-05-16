@@ -1,10 +1,6 @@
 package system
 
 import (
-	"encoding/json"
-	"fmt"
-	"time"
-
 	"github.com/anabiozz/yotunheim/backend"
 	"github.com/anabiozz/yotunheim/backend/common/datastore"
 	"github.com/anabiozz/yotunheim/backend/metrics"
@@ -40,29 +36,24 @@ func (LinuxSysctlFsStats) Gather(c datastore.Datastore, acc backend.Accumulator)
 	name := "linux_sysctl_fs"
 
 	influxMetrics := datastore.InfluxMetrics{}
-	influxMetrics.Metric = make(map[string][]datastore.InfluxMetricItem, 0)
+	tableMetrics := datastore.TableMetrics{}
+	influxMetrics.Metric = make([]datastore.TableMetrics, 0)
 
 	metrics, _ := datastore.QueryDB(c.(influx.Client), "SELECT mean(file-max) as file-max from linux_sysctl_fs WHERE time >= now() - 30m GROUP BY time(1m)")
 
 	if len(metrics) > 0 && len(metrics[0].Series) > 0 {
 
-		for _, values := range metrics[0].Series[0].Values {
+		if metrics[0].Series[0].Values[1] != nil {
+			tableMetrics.Titles = make([]string, len(metrics[0].Series[0].Columns))
+			tableMetrics.Value = make([][]interface{}, len(metrics[0].Series[0].Values))
 
-			if values[1] != nil {
+			copy(tableMetrics.Titles, metrics[0].Series[0].Columns)
+			copy(tableMetrics.Value, metrics[0].Series[0].Values)
+			influxMetrics.Metric = append(influxMetrics.Metric, tableMetrics)
 
-				influxMetricItem := datastore.InfluxMetricItem{}
-				t, _ := time.Parse(time.RFC3339, values[0].(string))
-				influxMetricItem.Xline = fmt.Sprintf("%02d:%02d:%02d", t.Hour(), t.Minute(), t.Second())
-				payload := values[1].(json.Number).Float64
-				p, err := payload()
-				if err != nil {
-					fmt.Println(err)
-				}
-				influxMetricItem.Payload = int64(p)
-				influxMetrics.Metric[name] = append(influxMetrics.Metric[name], influxMetricItem)
-			}
+			influxMetrics.ChartType = backend.Counter
+			influxMetrics.ChartName = name
 		}
-		influxMetrics.ChartType = backend.Counter
 	}
 	acc.AddMetric(influxMetrics)
 }

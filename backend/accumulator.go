@@ -20,4 +20,5 @@ const (
 // Accumulator ...
 type Accumulator interface {
 	AddMetric(datastore.InfluxMetrics)
+	AddTable(datastore.InfluxMetrics)
 }

@@ -1,8 +1,12 @@
 import { combineReducers } from 'redux'
-import charts from '../../charts/common/reducers/charts'
+import commonCharts from '../../charts/common/reducers/commonCharts'
+import netCharts from '../../charts/network/reducers/netCharts'
+import appsCharts from '../../charts/apps/reducers/appsCharts'
 import settings from '../../settings/reducers/settings'
 
 export default combineReducers({
-    charts,
+    commonCharts,
+    netCharts,
+    appsCharts,
     settings
 })
