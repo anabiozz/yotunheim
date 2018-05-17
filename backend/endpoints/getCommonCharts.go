@@ -22,16 +22,16 @@ func GetCommonCharts(w http.ResponseWriter, r *http.Request, e *common.Env) {
 		newConfig.AddInput(value)
 	}
 
-	InfluxResult := datastore.InfluxResult{}
 	metricChannel := make(chan datastore.InfluxMetrics, 100)
+	metricsResult := make([]datastore.InfluxMetrics, 0)
 
 	for _, input := range newConfig.Inputs {
 		acc := metrics.NewAccumulator(input, metricChannel)
 		input.Metrics.Gather(e.DB, acc)
-		InfluxResult.Metrics = append(InfluxResult.Metrics, <-metricChannel)
+		metricsResult = append(metricsResult, <-metricChannel)
 	}
 
-	payload, err := json.Marshal(InfluxResult)
+	payload, err := json.Marshal(metricsResult)
 	if err != nil {
 		log.Println(err)
 	}

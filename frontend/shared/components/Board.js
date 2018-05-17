@@ -3,34 +3,34 @@ import { Table } from 'react-materialize'
 
 const Board = ({chartName, value}) => {
     
+    console.log(value)
+    
     console.log('RENDER <Board>')
 
     if (chartName != undefined) {
         return (
-            <div>
+            <div className='table_main'>
                 <div className='table_name'>{chartName}</div>
-                <Table className='table' responsive={true} centered={true} bordered={true}>
+                <Table className='table' responsive={true} bordered={true}>
                     <thead>
                     <tr>
                         {
-                            Object.keys(value[0].payload_arr[0]).map((key, j) =>
-                                <th key={j} data-field={key}>{key}</th>
-                            )
+                            value.Titles.map((element, i) => {
+                                return<th key={i} data-field={element}>{element}</th>
+                            })
                         }
                     </tr>
                     </thead>
                     <tbody>
                     {
-                        value.map(function(val, i) {
-                            return (
-                                <tr key={i}>
-                                    {
-                                        Object.keys(val.payload_arr[0]).map((key, j) =>
-                                            <td key={j}>{val.payload_arr[0][key]}</td>
-                                        )
-                                    }
-                                </tr>
-                            )
+                        value.Value.map((array, j) => {
+                            return <tr key={j}>
+                                {
+                                    array.map((val, k) => {
+                                        return <th key={k} data-field={val}>{val}</th>
+                                    })
+                                }
+                            </tr>
                         })
                     }
                     </tbody>
@@ -44,7 +44,7 @@ const Board = ({chartName, value}) => {
 
 Board.propTypes = {
     chartName: PropTypes.string.isRequired,
-    value: PropTypes.array.isRequired,
+    value: PropTypes.object.isRequired,
 }
 
 export default Board

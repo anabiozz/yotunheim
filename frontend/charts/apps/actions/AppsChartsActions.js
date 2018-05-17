@@ -1,22 +1,22 @@
 import {
-    GET_SERVERS_REQUEST_NET,
-    GET_SERVERS_SUCCESS_NET,
-    GET_SERVERS_ERROR_NET,
-    GET_SERVERS_RESET_NET,
-    DISMISS_SERVERS_ERROR_NET,
+    GET_SERVERS_REQUEST_APP,
+    GET_SERVERS_SUCCESS_APP,
+    GET_SERVERS_ERROR_APP,
+    GET_SERVERS_RESET_APP,
+    DISMISS_SERVERS_ERROR_APP,
   } from '../constants'
   import fetch from 'isomorphic-fetch'
   import config from '../../../config'
   
-  const receiveSuccess = response => ({ type: GET_SERVERS_SUCCESS_NET, response })
-  const receiveFail = error => ({ type: GET_SERVERS_ERROR_NET, error })
+  const receiveSuccess = response => ({ type: GET_SERVERS_SUCCESS_APP, response })
+  const receiveFail = error => ({ type: GET_SERVERS_ERROR_APP, error })
   
-  export function getNetCharts() {
+  export function getAppsCharts() {
     return (dispatch) => {
       dispatch({
-        type: GET_SERVERS_REQUEST_NET
+        type: GET_SERVERS_REQUEST_APP
       })
-      return fetch(config.baseDomain + '/api/get-network-charts', {
+      return fetch(config.baseDomain + '/api/get-apps-charts', {
         method: 'get',
       })
         .then(response => response.json())
@@ -28,14 +28,14 @@ import {
   export function reset() {
     return (dispatch) => {
       return dispatch({
-        type: GET_SERVERS_RESET_NET
+        type: GET_SERVERS_RESET_APP
       })
     }
   }
   export function dismissError() {
     return (dispatch) => {
       return dispatch({
-        type: DISMISS_SERVERS_ERROR_NET
+        type: DISMISS_SERVERS_ERROR_APP
       })
     }
   }

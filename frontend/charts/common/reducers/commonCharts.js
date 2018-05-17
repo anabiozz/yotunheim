@@ -1,9 +1,9 @@
 import {
-    GET_SERVERS_REQUEST,
-    GET_SERVERS_SUCCESS,
-    GET_SERVERS_ERROR,
-    GET_SERVERS_RESET,
-    DISMISS_SERVERS_ERROR,
+    GET_SERVERS_REQUEST_COMMON,
+    GET_SERVERS_SUCCESS_COMMON,
+    GET_SERVERS_ERROR_COMMON,
+    GET_SERVERS_RESET_COMMON,
+    DISMISS_SERVERS_ERROR_COMMON,
   } from '../constants'
   
   const initialState = {
@@ -14,17 +14,17 @@ import {
     fetching: false
   }
   
-export default function charts(state = initialState, action) {
+export default function commonCharts(state = initialState, action) {
   switch (action.type) {
-    case GET_SERVERS_REQUEST:
+    case GET_SERVERS_REQUEST_COMMON:
       return { ...state, fetching: true }
-    case GET_SERVERS_SUCCESS:
+    case GET_SERVERS_SUCCESS_COMMON:
       return Object.assign({}, state, { data: action.response }, { time: '5m' }, {groupby: '30s'}, {fetching: false})
-    case GET_SERVERS_ERROR:
+    case GET_SERVERS_ERROR_COMMON:
       return { ...state, errors: action.error, fetching: false }
-    case GET_SERVERS_RESET:
+    case GET_SERVERS_RESET_COMMON:
       return { ...state }
-    case DISMISS_SERVERS_ERROR:
+    case DISMISS_SERVERS_ERROR_COMMON:
       return { ...state, errors: null }
     default:
       return state

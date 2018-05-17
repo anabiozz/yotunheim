@@ -16,7 +16,7 @@ omit_hostname = false
 
 # Default input plagins
 [InputFilters]
-inputs  = ["cpu", "mem", "kernel", "disk", "diskio", "processes", "linux_sysctl_fs", "netstat", "net"]
+inputs  = ["docker", "cpu", "mem", "kernel", "disk", "diskio", "processes", "linux_sysctl_fs", "netstat", "net"]
 
 [Gather]
 time = "5m"

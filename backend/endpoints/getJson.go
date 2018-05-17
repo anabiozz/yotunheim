@@ -18,17 +18,14 @@ func GetJSONnEndpoint(
 	e *common.Env,
 	newConfig *config.Config) {
 
-	InfluxResult := datastore.InfluxResult{}
-
 	metricChannel := make(chan datastore.InfluxMetrics, 100)
 
 	for _, input := range newConfig.Inputs {
 		acc := metrics.NewAccumulator(input, metricChannel)
 		input.Metrics.Gather(e.DB, acc)
-		InfluxResult.Metrics = append(InfluxResult.Metrics, <-metricChannel)
 	}
 
-	payload, err := json.Marshal(InfluxResult)
+	payload, err := json.Marshal(<-metricChannel)
 	if err != nil {
 		log.Println(err)
 	}

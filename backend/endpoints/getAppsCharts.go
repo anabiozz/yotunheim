@@ -11,12 +11,12 @@ import (
 	"github.com/anabiozz/yotunheim/backend/metrics"
 )
 
-// GetNetworkCharts ...
-func GetNetworkCharts(w http.ResponseWriter, r *http.Request, e *common.Env) {
+// GetAppsCharts ...
+func GetAppsCharts(w http.ResponseWriter, r *http.Request, e *common.Env) {
 
 	// Create new config
 	newConfig := config.NewConfig()
-	metricArray := []string{"net", "netstat"}
+	metricArray := []string{"docker"}
 
 	for _, value := range metricArray {
 		newConfig.AddInput(value)
@@ -28,7 +28,13 @@ func GetNetworkCharts(w http.ResponseWriter, r *http.Request, e *common.Env) {
 	for _, input := range newConfig.Inputs {
 		acc := metrics.NewAccumulator(input, metricChannel)
 		input.Metrics.Gather(e.DB, acc)
-		metricsResult = append(metricsResult, <-metricChannel)
+	}
+
+	for met := range metricChannel {
+		if len(metricChannel) == 0 {
+			close(metricChannel)
+		}
+		metricsResult = append(metricsResult, met)
 	}
 
 	payload, err := json.Marshal(metricsResult)
