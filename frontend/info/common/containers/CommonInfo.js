@@ -41,6 +41,8 @@ class CommonCharts extends React.Component {
 
     const { commonCharts } = this.props
 
+    console.log(commonCharts)
+
     return (
       <div className='main_monitoring'>
           <Charts data={ commonCharts.data }/>

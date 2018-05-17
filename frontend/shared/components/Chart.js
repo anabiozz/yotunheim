@@ -28,7 +28,7 @@ const Chart = ({chartName, value}) => {
                 <span className='chart_head_text'>{chartName}</span>
             </div>
             
-            <LineChart width={550} height={300} data={data}>
+            <LineChart width={700} height={300} data={data}>
 
                 <XAxis 
                     dataKey='time' 

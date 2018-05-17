@@ -3,8 +3,6 @@ import { Table } from 'react-materialize'
 
 const Board = ({chartName, value}) => {
     
-    console.log(value)
-    
     console.log('RENDER <Board>')
 
     if (chartName != undefined) {

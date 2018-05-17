@@ -11,12 +11,12 @@ import (
 	"github.com/anabiozz/yotunheim/backend/metrics"
 )
 
-// GetAppsCharts ...
-func GetAppsCharts(w http.ResponseWriter, r *http.Request, e *common.Env) {
+// GetCommonCharts ...
+func GetCommonCharts(w http.ResponseWriter, r *http.Request, e *common.Env) {
 
 	// Create new config
 	newConfig := config.NewConfig()
-	metricArray := []string{"docker"}
+	metricArray := []string{"cpu", "mem", "disk", "diskio", "kernel", "precesses"}
 
 	for _, value := range metricArray {
 		newConfig.AddInput(value)
@@ -26,7 +26,7 @@ func GetAppsCharts(w http.ResponseWriter, r *http.Request, e *common.Env) {
 	metricsResult := make([]datastore.InfluxMetrics, 0)
 
 	for _, input := range newConfig.Inputs {
-		acc := metrics.NewAccumulator(input, metricChannel)
+		acc := metrics.NewAccumulator(input, metricChannel, nil)
 		input.Metrics.Gather(e.DB, acc)
 	}
 

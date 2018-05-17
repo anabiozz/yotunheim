@@ -15,6 +15,11 @@ func (r *RunningInput) GetMetric(influxMetrics datastore.InfluxMetrics) datastor
 	return influxMetrics
 }
 
+// GetMetrics ...
+func (r *RunningInput) GetMetrics(influxMetrics datastore.Response) datastore.Response {
+	return influxMetrics
+}
+
 // NewRunningInput ...
 func NewRunningInput(metrics backend.Gatherer) *RunningInput {
 	return &RunningInput{

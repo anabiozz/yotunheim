@@ -26,7 +26,7 @@ func GetNetworkCharts(w http.ResponseWriter, r *http.Request, e *common.Env) {
 	metricsResult := make([]datastore.InfluxMetrics, 0)
 
 	for _, input := range newConfig.Inputs {
-		acc := metrics.NewAccumulator(input, metricChannel)
+		acc := metrics.NewAccumulator(input, metricChannel, nil)
 		input.Metrics.Gather(e.DB, acc)
 		metricsResult = append(metricsResult, <-metricChannel)
 	}

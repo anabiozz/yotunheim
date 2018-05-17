@@ -21,7 +21,7 @@ func GetJSONnEndpoint(
 	metricChannel := make(chan datastore.InfluxMetrics, 100)
 
 	for _, input := range newConfig.Inputs {
-		acc := metrics.NewAccumulator(input, metricChannel)
+		acc := metrics.NewAccumulator(input, metricChannel, nil)
 		input.Metrics.Gather(e.DB, acc)
 	}
 

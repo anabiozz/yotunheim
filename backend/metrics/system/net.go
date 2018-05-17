@@ -114,8 +114,8 @@ func (NetStat) Gather(c datastore.Datastore, acc backend.Accumulator) {
 	name := "net"
 
 	influxMetrics := datastore.InfluxMetrics{}
-	tableMetrics := datastore.TableMetrics{}
-	influxMetrics.Metric = make([]datastore.TableMetrics, 0)
+	tableMetrics := datastore.InfoMetrics{}
+	influxMetrics.Metric = make([]datastore.InfoMetrics, 0)
 
 	metrics, _ := datastore.QueryDB(c.(influx.Client), "SELECT mean(tcp_maxconn) as tcp_maxconn from net WHERE time >= now() - 30m GROUP BY time(1m)")
 
@@ -129,8 +129,8 @@ func (NetStat) Gather(c datastore.Datastore, acc backend.Accumulator) {
 			copy(tableMetrics.Value, metrics[0].Series[0].Values)
 			influxMetrics.Metric = append(influxMetrics.Metric, tableMetrics)
 
-			influxMetrics.ChartType = backend.Counter
-			influxMetrics.ChartName = name
+			influxMetrics.InfoType = backend.Counter
+			influxMetrics.InfoName = name
 		}
 	}
 	acc.AddMetric(influxMetrics)

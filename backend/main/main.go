@@ -113,44 +113,31 @@ func main() {
 	// ********************************************************************************************//
 
 	env := common.Env{DB: db}
-
-	// Mux
 	router := mux.NewRouter()
+
+	// router.Headers("Cache-Control", "no-cache")
+	router.Headers("Access-Control-Allow-Origin", "*")
 
 	// ENDPOINTS *****************************************************************
 
-	router.HandleFunc("/api/settings", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Println("/api/settings")
-	}).Methods("PUT")
-
-	router.HandleFunc("/api/get-common-charts", func(w http.ResponseWriter, r *http.Request) {
-		endpoints.GetCommonCharts(w, r, &env)
-		// send config with charts initial state in request body?
-	}).Methods("GET")
-
-	router.HandleFunc("/api/get-network-charts", func(w http.ResponseWriter, r *http.Request) {
-		endpoints.GetNetworkCharts(w, r, &env)
-	}).Methods("GET")
-
-	router.HandleFunc("/api/get-apps-charts", func(w http.ResponseWriter, r *http.Request) {
-		endpoints.GetAppsCharts(w, r, &env)
-	}).Methods("GET")
+	router = endpoints.ExposeEndpoints(router, env)
 
 	// END ENDPOINTS *****************************************************************
+
+	// Static files
+	router.PathPrefix("/public/").Handler(http.StripPrefix("/public", http.FileServer(
+		http.Dir("../go/src/github.com/anabiozz/yotunheim/backend/public"))))
+
+	// HENDLERS **********************************************************************
 
 	// Handler for WebSockets
 	router.HandleFunc("/reload", func(w http.ResponseWriter, r *http.Request) {
 		ServeWs(hub, w, r)
 	})
 
-	// Start point for reactjs
-	router.HandleFunc("/{category}", func(w http.ResponseWriter, r *http.Request) {
-		handlers.DashboardHandler(w, r)
-	}).Methods("GET")
+	router = handlers.ExposeHandlers(router, env)
 
-	// Static files
-	router.PathPrefix("/").Handler(http.StripPrefix("/",
-		http.FileServer(http.Dir("../go/src/github.com/anabiozz/yotunheim/backend/public"))))
+	// END HENDLERS **********************************************************************
 
 	srv := &http.Server{
 		Addr: "yotunheim:8888",

@@ -4,7 +4,7 @@ import { Chart, Board } from '../../../shared/components'
  const Charts = ({data}) => {
 
     const renderLine = (data, i) => {
-        return <Chart chartName={data.ChartName} value={data.Metric[0].Value} key={i}/>
+        return <Chart chartName={data.InfoName} value={data.Metric[0].Value} key={i}/>
     } 
 
     const renderTable = (data) => {
@@ -18,7 +18,7 @@ import { Chart, Board } from '../../../shared/components'
 
         for (let index = 0; index < data.length; index++) {
 
-            switch (data[index].ChartType) {
+            switch (data[index].InfoType) {
                 case 'counter':
                     charts.push(renderLine(data[index], index))
                     break

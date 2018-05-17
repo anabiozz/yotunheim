@@ -16,10 +16,10 @@ class Layout extends React.Component {
 		return (
 			<div className='react_root'>
 				<Navbar/>
-				<div className='wrapper'>
-						<Switcher/>
-						{this.props.children}
-        		</div>
+			<div className='wrapper'>
+				<Switcher/>
+			{this.props.children}
+			</div>
 				<Footer/>
 			</div>
 		) 
@@ -31,7 +31,7 @@ Layout.propTypes = {
 }
 
 function mapStateToProps (state) {
-	return {}
+	return {state}
 }
 
 export default connect(mapStateToProps)(Layout)

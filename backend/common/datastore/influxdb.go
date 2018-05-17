@@ -8,15 +8,21 @@ import (
 
 // InfluxMetrics ...
 type InfluxMetrics struct {
-	Metric    []TableMetrics
-	ChartType string
-	ChartName string
+	Metric   []InfoMetrics
+	InfoType string
+	InfoName string
 }
 
 // TableMetrics
-type TableMetrics struct {
+type InfoMetrics struct {
 	Titles []string
 	Value  [][]interface{}
+}
+
+// Response ...
+type Response struct {
+	Name    string
+	Metrics []InfluxMetrics
 }
 
 // InfluxErr ...

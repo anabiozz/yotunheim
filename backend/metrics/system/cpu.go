@@ -38,10 +38,10 @@ func (CPUStats) Gather(c datastore.Datastore, acc backend.Accumulator) {
 
 	name := "cpu"
 
-	tableMetrics := datastore.TableMetrics{}
+	tableMetrics := datastore.InfoMetrics{}
 
 	influxMetrics := datastore.InfluxMetrics{}
-	influxMetrics.Metric = make([]datastore.TableMetrics, 0)
+	influxMetrics.Metric = make([]datastore.InfoMetrics, 0)
 
 	metrics, _ := datastore.QueryDB(c.(influx.Client), "SELECT 100-MEAN(usage_idle) AS usage_idle FROM cpu WHERE time >= now() - 30m GROUP BY time(1m)")
 
@@ -55,8 +55,8 @@ func (CPUStats) Gather(c datastore.Datastore, acc backend.Accumulator) {
 			copy(tableMetrics.Value, metrics[0].Series[0].Values)
 			influxMetrics.Metric = append(influxMetrics.Metric, tableMetrics)
 
-			influxMetrics.ChartType = backend.Counter
-			influxMetrics.ChartName = name
+			influxMetrics.InfoType = backend.Counter
+			influxMetrics.InfoName = name
 		}
 
 	}
